@@ -1,0 +1,127 @@
+<% content_for :javascripts do %>
+<%= javascript_include_tag 'jquery.1.5.1.js', 'jquery.scrollTo-1.4.2.js', 'admin/dashboard/index.js' %>
+<% end %>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'admin/dashboard/index.css' %>
+<% end %>
+
+<div id="features_list" class="table">
+  <span class="title"><%= t('.your_features') %></span>
+  <div id="search">
+    <%= form_tag '/', :method => :get do %>
+      <%= label_tag 'search', t('.search_label') %>
+      <%= text_field_tag 'search' %>
+      <%= submit_tag t('.search') %>
+    <% end %>
+    <%= link_to content_tag(:span, t('.scroll_right')), '#', :id => 'scroll_right' %>
+    <%= link_to content_tag(:span, t('.scroll_left')), '#', :id => 'scroll_left' %>
+  </div>
+  <div id="features_table">
+    <table class="list">
+      <tr class="header">
+        <th><div class="id">id.</div></th>
+        <% @features_columns.each do |column| %>
+        <th><div class="<%= column[:type] %>"><%= column[:name] %></div></th>
+        <% end %>
+      </tr>
+      <% @features.each do |feature| %>
+        <tr class="item <%= cycle('odd', 'even') %>">
+          <td class="cartodb_id"><%= link_to feature.cartodb_id, admin_features_path(feature.cartodb_id) %></td>
+          <% @features_columns.each do |column| %>
+            <td class="<%= column.first %>"><%= feature.send(column[:name]).to_s.truncate(28) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+  <%= link_to t('.create_feature'), new_admin_feature_path, :id => 'create_feature', :class => 'main_action' %>
+  <%= link_to t('.edit_in_cartodb'), '#', :id => 'edit_in_cartodb', :class => 'alternate_action' %>
+  <%= paginate @features, 1, @features.count %>
+</div>
+
+<div id="pages_list" class="table">
+  <span class="title">Your pages</span>
+  <div class="pages_list_container">
+    <ul>
+      <li>
+        <div>
+          <p>About your catoset</p>
+          <p class="link"><a href="#">edit this page</a></p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p>About your catoset</p>
+          <p class="link"><a href="#">edit this page</a></p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p>About your catoset</p>
+          <p class="link"><a href="#">edit this page</a></p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p>About your catoset</p>
+          <p class="link"><a href="#">edit this page</a></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="pages_footer">
+    <a href="#" class="main_action">Create new page</a>
+  </div>
+</div>
+
+<% if false %>
+<div id="settings_list" class="table">
+  <span class="title">Settings</span>
+  <div class="settings_list_container">
+    <ul>
+      <li class="odd" id="1">
+        <div class="name">
+          <p class="setting_name">services.google.tracking_id</p>
+          <p class="setting_description">Integration ID with Google Analytics</p>
+        </div>
+        <div class="setting_value"><a href="">UA-1234567-1</a></div>
+        <div class="edit_value">
+          <input type="text" value="UA-1234567-1"/>
+          <input type="hidden" value="UA-1234567-1"/>
+          <a href="" class="action_input">Save</a>
+          <span class="cancel_value">or <a href="">cancel</a></span>
+        </div>
+      </li>
+      <li class="even" id="2">
+        <div class="name">
+          <p class="setting_name">services.google.tracking_id</p>
+          <p class="setting_description">Integration ID with Google Analytics</p>
+        </div>
+        <div class="setting_value"><a href="">UA-1234567-2</a></div>
+        <div class="edit_value">
+          <input type="text" value="UA-1234567-2"/>
+          <input type="hidden" value="UA-1234567-2"/>
+          <a href="" class="action_input">Save</a>
+          <span class="cancel_value">or <a href="">cancel</a></span>
+        </div>
+      </li>
+      <li class="odd last" id="3">
+        <div class="name">
+          <p class="setting_name">services.google.tracking_id</p>
+          <p class="setting_description">Integration ID with Google Analytics</p>
+        </div>
+        <div class="setting_value"><a href="">UA-1234567-3</a></div>
+        <div class="edit_value">
+          <input type="text" value="UA-1234567-3"/>
+          <input type="hidden" value="UA-1234567-3"/>
+          <a href="" class="action_input">Save</a>
+          <span class="cancel_value">or <a href="">cancel</a></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="settings_footer"></div>
+</div>
+<% end %>
+

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cartoset - Administration Panel</title>
+  <%= stylesheet_link_tag 'reset.css', 'admin.css' %>
+  <%= yield :stylesheets %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+<%= render 'admin/shared/header' %>
+<div id="main_content">
+  <%= yield %>
+</div>
+<%= render 'admin/shared/footer' %>
+<%= yield :javascripts %>
+</body>
+</html>
