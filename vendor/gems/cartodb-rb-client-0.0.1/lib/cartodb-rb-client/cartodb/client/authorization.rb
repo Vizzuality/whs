@@ -5,12 +5,7 @@ module CartoDB
     module Authorization
 
       def signed_request(request_uri, arguments)
-        if Rails.env.development?
-          arguments[:disable_ssl_peer_verification] = true
-        else
-          Rails.logger.info '* Setting custom ssl_cert file'
-          arguments[:ssl_cert] = '/usr/lib/ssl/certs/ca-certificates.crt'
-        end
+        arguments[:disable_ssl_peer_verification] = true
 
         if settings['api_key']
           arguments[:params] = {}.merge!(arguments[:params])
@@ -39,7 +34,7 @@ module CartoDB
         response = Typhoeus::Request.get(request_token.authorize_url,
           'authorize'                    => '1',
           'oauth_token'                  => request_token.token,
-          :disable_ssl_peer_verification => !settings['ssl_peer_verification'],
+          :disable_ssl_peer_verification => true,
           :verbose                       => settings['debug']
         )
 
