@@ -1,11 +1,170 @@
-<h2><%= @feature.name %></h2>
-<div>
-  <span class="label">latitude: </span><span><%= @feature.latitude %></span>
+<% content_for :head_libraries do %>
+  <script type="text/javascript" src="http://www.google.com/jsapi?key=<%= APP_CONFIG[:google_api_key] %>"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script type="text/javascript">
+
+    var feature = <%= @feature.to_json.html_safe %>['feature'];
+
+    var imageInfo = null;
+    <% #if @feature.gallery && @feature.gallery.gallery_entries.any? %>
+    // imageInfo = <%#= @feature.gallery.gallery_entries.map{|ge| {:author => ge.image.author, :author_url => ge.image.author_url } }.to_json.html_safe %>;
+    <% #end %>
+
+    var nearest_places = <%= @nearest_places.to_json.html_safe %>;
+
+  </script>
+  <%= raw include_javascripts :feature %>
+<% end %>
+
+
+<div class="content_box" id="feature">
+  <div class="top"></div>
+  <div class="middle">
+    <div id="feature_image">
+      <a class="import_images" target="_blank" href="/whs/import_images?feature_id=<%=@feature.whs_site_id%>"></a>
+
+      <div id="big_map_container">
+        <div id="big_map"></div>
+        <div id="zoomControl">
+          <a id="zoomin" href="#zoom_in"></a>
+          <a id="zoomout" href="#zoom_out"></a>
+        </div>
+      </div>
+
+      <div id="feature_title">
+        <p id="country"><span><%= image_tag "flags/#{@feature.iso_code.downcase}.png", :class => 'flag' if @feature.iso_code %><%= @feature.country %></span></p>
+        <h1><span><%= @feature.title %></span></h1>
+        <p class="distance"><span id="<%= @itinerary_type %>">Just <%#= distance_of_time_in_words_to_now(@itinerary_time) %> away from <%#= @user_city %> by <%#= @itinerary_type %></span></p>
+      </div>
+
+      <% if @feature.images_ids.present? %>
+        <div id="gallery">
+          <% @feature.images_ids.to_s.split(',').each_with_index do |image_id,i| %>
+            <%= image_tag Feature.large_image_url(image_id), :title => "Photo by " + 'gallery_entry.image.author', :alt=> 'gallery_entry.image.author_url', :id =>i %>
+          <% end %>
+          <script>
+            Galleria.loadTheme('/javascripts/galleria.classic.js');
+            $("#gallery").galleria({width: 880,height: 430,autoplay:true, preload: 3,transition:'fade',showImagenav:false, thumbnails:"numbers", show_counter:false,
+              imageCrop:'width',maxScaleRatio:1, minScaleRatio:1});
+          </script>
+        </div>
+      <% else %>
+        <img id="default_image" src="/images/default_big.png"/>
+      <% end %>
+      <div id="photo_credits"></div>
+
+
+
+    <% if @feature.endangered_year %>
+      <div id="endangered"></div>
+    <% end %>
+    </div>
+
+      <div class="content">
+        <div id="main_area">
+          <%#= simple_format truncate(@feature.description, :length => 2000) %>
+          <div id="wikipedia">You can find more information at <a href="<%=@feature.wikipedia_link%>">Wikipedia</a>.</div>
+        </div>
+        <div id="data_column">
+          <div class="map_container">
+            <div id="map">
+              <img src="http://maps.google.com/maps/api/staticmap?center=<%#= @feature.the_geom.y %>,<%#= @feature.the_geom.x %>&zoom=8&size=235x162&maptype=terrain&markers=icon:/images/explore/marker_natural.png|<%#= @feature.the_geom.y %>,<%#= @feature.the_geom.x %>&sensor=false"/>
+
+            </div>
+            <div id="img_thumb">
+              <% if @feature.images_ids.present? %>
+                <%= image_tag Feature.tiny_image_url(Feature.image_id(@feature)), :alt => @feature.title %>
+                <% else %>
+                <img src="/images/test/test_small.jpg">
+              <% end %>
+
+            </div>
+            <div id="darken">
+              <a href="#"><img src="/images/darken.png"/></a>
+              <a href="#" id="show_link">Show map</a>
+            </div>
+          </div>
+          <p class="label" id="first">Date of inscription</p>
+          <p class="value"><%= @feature.date_of_inscription %></p>
+
+          <% unless @feature.criteria.blank? %>
+          <span class="line"></span>
+          <p class="label">Why it is a World Heritage Site</p>
+          <% @feature.criteria.split(",").each do |criteria|%>
+          <ul>
+            <li><%= I18n.t("feature.criteria.#{criteria.delete('[]')}") %></li>
+          </ul>
+          <% end %>
+          <% end %>
+
+          <% unless @feature.size.blank? %>
+          <span class="line"></span>
+          <p class="label">Size</p>
+
+          <% %>
+          <p class="value"><%= number_with_delimiter(number_with_precision(@feature.size.to_f, :precision => 2)) %> Ha</p>
+          <% end %>
+
+          <span class="line"></span>
+          <p class="label">External links</p>
+          <ul>
+            <li><a href="<%=@feature.whs_source_page%>">Official Unesco WHS Site</a></li>
+            <% if @feature.external_links.present? %>
+              <% @feature.external_links.split('#').each do |link| %>
+                <li><%= external link %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+
+        <div id="clear"></div>
+      </div>
+  </div>
+  <div class="bottom"></div>
 </div>
-<div>
-  <span class="label">longitude: </span><span><%= @feature.longitude %></span>
+
+
+<div class="content_box" id="feature_mosaic">
+  <div class="top"></div>
+  <div class="middle">
+    <div class="content">
+      <div class="mosaic">
+        <ul id="image_list">
+          <% @nearest_places.each do |feature|%>
+          <li class="mosaic_element<%= cycle('',' middle','', :name => 'mosaic') %> no_border">
+            <a href="/features/<%=feature.id%>">
+            <div class="mosaic_element_div">
+
+              <% if feature.gallery && feature.gallery.gallery_entries.any? %>
+                <%= image_tag feature.gallery.gallery_entries.first.image.thumbnail(:small).url, :alt => feature.title %>
+              <% else %>
+                <img src="/images/default_mosaic.png">
+              <% end %>
+
+              <div class="mosaic_label">
+                <p class="place"><span><%=truncate(feature.title,:length=>60,:delimiter=>"...")%></span></p>
+                <p class="distance"><%= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+              </div>
+            </div>
+            </a>
+          </li>
+          <%= raw cycle('<li class="separator no_border"></li>','<li class="separator no_border"></li>','', :name => 'separator') %>
+          <% end %>
+        </ul>
+      </div>
+      <h3>Near to this site</h3>
+    </div>
+  </div>
+  <div class="bottom"></div>
 </div>
-<div>
-  <span class="label">description:</span>
-  <p><%= @feature.description %></p>
+
+<div class="content_box" id="teleport">
+  <div class="top"></div>
+  <div class="middle">
+    <div class="content">
+      <div id="message">Or would you rather be randomly teleported to a new beautiful site?</div>
+      <%= link_to '"Bean me up, Scotty!"', feature_path(@random_feature), :class => "teleport_#{feature_type}"  , :id => 'green'%>
+    </div>
+  </div>
+  <div class="bottom"></div>
 </div>

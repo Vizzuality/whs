@@ -19,7 +19,10 @@ Cartoset::Application.routes.draw do
 
   get '/login' => 'sessions#create', :as => :login
   get '/logout' => 'sessions#destroy', :as => :logout
-  
+
+  match '/search', :to => 'features#index', :as => 'search'
+  match '/about', :to => 'static#about', :as => 'about'
+
   match ':controller(/:action(/:id))'
 
   resources :features

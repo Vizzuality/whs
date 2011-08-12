@@ -1,0 +1,15 @@
+embed_assets: on
+
+javascripts:
+  home:
+    - public/javascripts/jquery.min.js
+    - public/javascripts/application.js
+  explore:
+    - public/javascripts/jquery.min.js
+    - public/javascripts/application.js
+    - public/javascripts/whs/features/index.js
+  feature:
+    - public/javascripts/jquery.min.js
+    - public/javascripts/application.js
+    - public/javascripts/galleria-1.2.2.js
+    - public/javascripts/whs/features/show.js

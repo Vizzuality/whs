@@ -1,0 +1,18 @@
+#############################
+# CartoDB Local Instance
+#############################
+host: https://whs.cartodb.com
+oauth_key: Yu6NoImrTU9jCyvDrR0SYfURbIvyLvZEu7gXisED
+oauth_secret: bgntchDURNj5kYZFVfwbZrdnpXLTZZDrPvQ45f8E
+
+#############################
+# CartoDB Production Instance
+#############################
+# host: 'https://api.cartodb.com'
+# oauth_key: 'bIVtTrUCl2DBYS5AZkty8OAOqn7EdvU3YFMGHbZt'
+# oauth_secret: 'nbt5H35vxX35W47b1sWkiMzQi1QRD5E9U4cHwvgu'
+# api_key: '9d6992e1b019278c50eb07edccf39139f6bc0a99'
+
+# cache_timeout: 60
+# debug: true
+# ssl_peer_verification: true

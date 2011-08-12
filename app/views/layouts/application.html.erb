@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Cartoset</title>
-  <%= stylesheet_link_tag 'reset.css', 'application.css' %>
-  <%= yield :stylesheets %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
-
-<div class="header">
-  <% if logged_in? %>
-    Hi <%= current_user.username %>! (<%= link_to('logout', logout_path) %>)
-  <% else %>
-    <%= link_to('login', login_path) %>
-  <% end %>
-</div>
-
-<div id="main_content">
-  <%= yield %>
-</div>
-<%= yield :javascripts %>
-
-</body>
+  <%= render :partial => "/shared/head" %>
+  <body id="<%= feature_type %>">
+    <%= render :partial => "/shared/ie6check" if request.env['HTTP_USER_AGENT'] =~ /MSIE/ -%>
+    <div id='page_container'>
+      <div id='page'>
+        <div id='header'>
+          <%= render :partial => "/shared/header" %>
+        </div>
+        <div id='body'>
+          <div id="container">
+            <%= yield %>
+          </div>
+        </div>
+        <div id='footer'>
+          <%= render :partial => "/shared/footer" %>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

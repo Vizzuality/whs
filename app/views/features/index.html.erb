@@ -1,20 +1,67 @@
-<% content_for :javascripts do %>
+<% content_for :head_libraries do %>
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-  <%= javascript_include_tag 'jquery.1.5.1.js', 'utils.js', 'features/index.js' %>
+  <script src="/javascripts/markerclusterer.js" type="text/javascript" charset="utf-8"></script>
+  <%= raw include_javascripts :explore %>
   <script type="text/javascript" charset="utf-8">
-    var features = <%= @features.to_json.html_safe %>;
+    features = <%= @features_json %>;
   </script>
 <% end %>
+<div class="content_box" id="explore">
+  <span class="loader">
+    <img src="/images/loading.gif" alt="loader" />
+  </span>
+  <div class="top"></div>
+  <div class="middle">
+    <h1><span>More than 900 beautiful</span></h1>
+    <h1 class="down"><span>places to see</span></h1>
+    <div class="map_container">
+      <div id="map"></div>
+      <div id="zoomControl">
+        <a id="zoomin" href="#zoom_in"></a>
+        <a id="zoomout" href="#zoom_out"></a>
+      </div>
+    </div>
+    <div id="filter">
+      <div class="input">
+        <div class="input_left"></div>
+        <div class="input_center">
+          <%= form_tag search_path, :method => :get, :id => 'ajaxSearch' do %>
+            <%= label_tag :q, 'Search...', :class => params[:q] ? 'hidden' : '' %>
+            <%= text_field_tag :q, params[:q], :size => 20 %>
+          <% end %>
+        </div>
+        <div class="input_right"></div>
+      </div>
+      <a id="all_selector"      class="type_selector <%= all_selected? %>"      href="<%= search_path :type => ''         %>">All</a>
+      <a id="natural_selector"  class="type_selector <%= natural_selected? %>"  href="<%= search_path :type => 'natural'  %>">Natural</a>
+      <a id="cultural_selector" class="type_selector <%= cultural_selected? %>" href="<%= search_path :type => 'cultural' %>">Cultural</a>
+      <div id="criteria_select">
+        <span><a id="criteria_label" href="#">Search by criteria</a></span>
+        <ul>
+          <li><a class="criteria" href="<%= search_path :criteria => ''    %>"><%= I18n.t("feature.criteria.all") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'i'    %>"><%= I18n.t("feature.criteria.i") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'ii'   %>"><%= I18n.t("feature.criteria.ii") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'iii'  %>"><%= I18n.t("feature.criteria.iii") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'iv'   %>"><%= I18n.t("feature.criteria.iv") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'v'    %>"><%= I18n.t("feature.criteria.v") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'vi'   %>"><%= I18n.t("feature.criteria.vi") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'vii'  %>"><%= I18n.t("feature.criteria.vii") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'viii' %>"><%= I18n.t("feature.criteria.viii") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'ix'   %>"><%= I18n.t("feature.criteria.ix") %></a></li>
+          <li><a class="criteria" href="<%= search_path :criteria => 'x'    %>"><%= I18n.t("feature.criteria.x") %></a></li>
+        </ul>
+      </div>
+      <a id="mosaic_selector" class="selected" href="#"></a>
+      <a id="list_selector" href="#"></a>
+    </div>
+    <div id="results" class="mosaic">
+      <%= render :partial => 'features' %>
+    </div>
+    <% if @features.size==9 %>
+      <%= link_to 'More results', '#more_results', :id => 'pagination' %>
+    <% end %>
+  </div>
+  <div class="bottom"></div>
+</div>
 
-<% content_for :stylesheets do %>
-  <%= stylesheet_link_tag 'features/index.css' %>
-<% end %>
-
-<h1 id="features_list"><%= t('.title')%></h1>
-<div id="features_map"></div>
-
-<ul>
-  <% @features.each do |feature| %>
-    <li><%= link_to feature.name, feature_path(feature.cartodb_id) %></li>
-  <% end %>
-</ul>

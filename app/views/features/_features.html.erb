@@ -1,0 +1,45 @@
+<div class="mosaic">
+  <% if @features.size>0 %>
+    <ul>
+      <% @features.each do |feature|%>
+      <li class="mosaic_element<%= cycle('',' middle','', :name => 'mosaic') %>">
+        <a href="/features/<%=feature.cartodb_id%>">
+        <div class="mosaic_element_div">
+          <% if feature.images_ids.present? %>
+            <%= image_tag Feature.small_image_url(@features.first), :alt => feature.title %>
+          <% else %>
+            <img src="/images/default_mosaic.png">
+          <% end %>
+
+          <div class="mosaic_label">
+            <p class="place"><span><%= truncate(feature.title,:length => 60, :delimiter => "...")%></span></p>
+            <p class="distance"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+          </div>
+        </div>
+        </a>
+      </li>
+      <li class="separator<%= cycle('','',' horizontal', :name => 'separator') %>"></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <div class="empty_list">
+      <p>There are no results for your search criteria, <a class="view_all" href="#view_all">start again viewing all!</a></p>
+    </div>
+  <% end %>
+</div>
+<div class="list">
+  <% if @features.size>0 %>
+  <ul>
+    <% @features.each do |feature, itinerary|%>
+    <li>
+      <h3><a href="/features/<%=feature.cartodb_id%>"><%=truncate(feature.title,:length=>50,:delimiter=>"...") %></a></h3>
+      <span class="description"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></span>
+    </li>
+    <% end %>
+  <% else %>
+    <div class="empty_list">
+      <p>There are no results for your search criteria, <a class="view_all" href="#view_all">start again viewing all!</a></p>
+    </div>
+  <% end %>
+  </ul>
+</div>

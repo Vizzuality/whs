@@ -1,6 +1,71 @@
-<h1 id="welcome_message"><%= t('.welcome') %></h1>
-<h2><%= t('.disclaimer') %></h2>
+  <% content_for :head_libraries do %>
+    <%= raw include_javascripts :home %>
+  <% end %>
+  <div class="content_box mosaic">
+    <div class="top"></div>
+    <div class="middle">
+      <div class="content">
+        <h2>AnotherWHSList.com</h2>
+          <h1><span>Discovering the most</h1>
+          <h1 class="down"><span>beautiful places in the world</span></h1>
+          <a href="/features/<%=@features.first.cartodb_id%>">
+          <div id="big_image">
+              <% if @features.first.images_ids.present? %>
 
-<p>
-  <%= raw t('.features_list', :features_link => link_to(t('.features_link'), features_path)) %>
-</p>
+                <%= image_tag Feature.large_image_url(@features.first), :alt => @features.first.title %>
+                <div class="big_label">
+                  <p class="place"><span><%=truncate(@features.first.title,:length=>60,:delimiter=>"...")%></span></p>
+                  <p class="distance">4 hours by car from Madrid</p>
+                </div>
+
+              <% else %>
+                <img src="/images/default_big.png">
+              <% end %>
+          </div>
+          </a>
+
+          <ul id="image_list">
+          <% @features.first(6).each do |feature|%>
+          <li class="mosaic_element<%= cycle('',' middle','', :name => 'mosaic') %>">
+            <a href="/features/<%=feature.cartodb_id%>">
+            <div class="mosaic_element_div">
+              <% if feature.images_ids.present? %>
+                <%= image_tag Feature.small_image_url(feature), :alt => feature.title %>
+              <% else %>
+                <img src="/images/default_mosaic.png">
+              <% end %>
+              <div class="mosaic_label">
+                <p class="place"><span><%=truncate(feature.title,:length=>60,:delimiter=>"...")%></span></p>
+                <p class="distance"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+              </div>
+            </div>
+            </a>
+          </li>
+          <li class="separator<%= cycle('','',' horizontal','','',' invisible', :name => 'separator') %>"></li>
+          <% end %>
+          </ul>
+        </div>
+    </div>
+    <div class="bottom"></div>
+  </div>
+
+  <div class="content_box" id="more_sites">
+    <div class="top"></div>
+    <div class="middle">
+      <div class="content">
+      <h2>Browse more sites around you</h2>
+        <ul>
+          <% @closests_features.each do |feature|%>
+          <li <%= cycle('','','class=\'last\'', :name => 'classname') %> >
+            <%= link_to truncate(feature.title,:length => 35, :delimiter => '...'), feature_path(feature.cartodb_id), :title => feature.title %>
+            <p><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="footer">
+          <a class="bottom_link" href="/features/">Or explore the world map</a>
+      </div>
+    </div>
+    <div class="bottom"></div>
+  </div>

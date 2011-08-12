@@ -1,0 +1,56 @@
+<div class="content_box" id="about">
+  <div class="top"></div>
+  <div class="middle">
+    <div class="content">
+      <h1><span>Currently there are 911 places on the</span></h1>
+      <h1 class="down"><span>UNESCO's World Heritage Sites List.</span></h1>
+      <div id="left">
+        <div class="amount">
+          <span class="big_number"><%= @whs_total_count %></span><span class="big_number_subtitle">WHS in total</span>
+        </div>
+        <h2>What is a World Heritage Site?</h2>
+        <p>A UNESCO World Heritage Site is a place of special cultural or physical significance.</p>
+        <p>The list is maintained by the international World Heritage Programme administered by the UNESCO World Heritage Committee, composed of 21 state parties which are elected by their General Assembly.</p>
+        <p>The goal of this list is to commit the international community to preserve each site.</p>
+      </div>
+
+      <div id="center">
+          <div class="amount">
+            <span class="big_number"><%= @whs_cultural_count %></span><span class="big_number_subtitle">cultural WHS</span>
+          </div>
+          <h2>What needs a place to be a cultural WHS?</h2>
+          <ul>
+            <li>A masterpiece of human creative genius.</li>
+            <li>An important interchange of human values.</li>
+            <li>A unique or exceptional testimony to a cultural tradition or to a civilization.</li>
+            <li>An outstanding example of a type of building which illustrates a significant stage in human history.</li>
+            <li>An outstanding example of a traditional human settlement.</li>
+            <li>Is directly or tangibly associated with events or living traditions.</li>
+          </ul>
+      </div>
+
+      <div id="right">
+          <div class="amount">
+            <span class="big_number"><%= @whs_natural_count %></span><span class="big_number_subtitle">natural WHS</span>
+          </div>
+          <h2>What needs a place to be a natural WHS?</h2>
+          <ul>
+            <li>A superlative natural phenomena or areas an exceptional natural beauty.</li>
+            <li>An outstanding example representing major stages of Earth’s history.</li>
+            <li>An outstanding example representing significant on-going ecological and biological processes.</li>
+            <li>One of the most important and significant natural habitats for in-situ conservation of biological diversity.</li>
+          </ul>
+      </div>
+      <div id="more_information">
+        <h3>Where can I find more information?</h3>
+        <ul id="logos">
+          <li><a href="http://whc.unesco.org/" target="_blank"><img src="/images/about/unesco_logo.png" alt="UNESCO" title="UNESCO"/></a></li>
+          <li><a href="http://www.wikipedia.org" target="_blank"><img src="/images/about/wikipedia_logo.png" alt="Wikipedia" title="Wikipedia"/></a></li>
+          <li class="last"><a href="http://www.panoramio.com" target="_blank"><img class="panoramio" src="/images/about/panoramio.jpg" alt="Panormaio" title="Panoramio"/></a></li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom">
+  </div>
