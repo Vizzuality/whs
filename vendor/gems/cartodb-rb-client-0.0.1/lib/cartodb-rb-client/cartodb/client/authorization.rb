@@ -5,7 +5,13 @@ module CartoDB
     module Authorization
 
       def signed_request(request_uri, arguments)
-        arguments[:disable_ssl_peer_verification] = true
+        if Rails.env.development?
+          arguments[:disable_ssl_peer_verification] = true
+        else
+          Rails.logger.info '* Setting custom ssl_cert file'
+          arguments[:ssl_cert] = '/usr/lib/ssl/certs/ca-certificates.crt'
+        end
+
         if settings['api_key']
           arguments[:params] = {}.merge!(arguments[:params])
           arguments[:params][:api_key] = settings['api_key']
