@@ -1,0 +1,8 @@
+development:
+  google_api_key: ''
+test:
+  google_api_key: ''
+staging:
+  google_api_key: ''
+production:
+  google_api_key: ''
