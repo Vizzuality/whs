@@ -48,12 +48,43 @@ class Feature
       columns.reject{|c| Cartoset::Constants::COMMON_FEATURES_FIELDS.include?(c[:name])}
     end
 
-    def random
-      query "SELECT cartodb_id, title, images_ids FROM #{features_table_name} ORDER BY RANDOM()", :page => 1, :rows_per_page => 9
+    def random(user_location)
+      # sql = <<-SQL
+      #   SELECT
+      #     cartodb_id,
+      #     title,
+      #     images_ids,
+      #     ST_Distance(the_geom::geography, GeomFromText('POINT(#{user_location.y} #{user_location.x})', 4326)) as distance
+      #   FROM #{features_table_name}
+      #   ORDER BY RANDOM()
+      # SQL
+      sql = <<-SQL
+        SELECT
+          cartodb_id,
+          title,
+          images_ids
+        FROM #{features_table_name}
+        ORDER BY RANDOM()
+        LIMIT 9
+      SQL
+
+      query sql
     end
 
     def random_one_distinct_from(feature)
-      query "SELECT cartodb_id, title, images_ids FROM #{features_table_name} WHERE cartodb_id <> #{feature.cartodb_id} ORDER BY RANDOM()", :page => 1, :rows_per_page => 1
+      randome_one = query <<-SQL
+        SELECT cartodb_id, title, images_ids
+        FROM #{features_table_name}
+        WHERE cartodb_id <> #{feature.cartodb_id}
+        ORDER BY RANDOM()
+        LIMIT 1
+      SQL
+      randome_one.first
+    end
+
+    def images(feature)
+      return [] if feature.images_ids.blank?
+      feature[:images] ||= feature.images_ids.split('#').map{|image_data| OpenStruct.new({:id => image_data.split('|').last, :author => image_data.split('|').first, :author_url => image_data.split('|').second})}
     end
 
     def tiny_image_url(image_id)
@@ -72,7 +103,7 @@ class Feature
       feature.images_ids.is_a?(String) ? feature.images_ids.split(',').first : feature.images_ids.to_i
     end
 
-    def query(sql, params)
+    def query(sql, params = nil)
       results = CartoDB::Connection.query sql, params
       return results[:rows] if results && results[:rows]
       results
@@ -94,33 +125,6 @@ class Feature
     # def by_whs_site_id(id)
     #   scoped.where('meta like ?', "%:whs_site_id: \"#{id}\"%").limit(1).first
     # end
-    #
-    # # Gets the next feature's images without consolidated images
-    # def feature_images(feature_id = nil)
-    #   feature = if feature_id
-    #     Feature.with_gallery.by_whs_site_id(feature_id)
-    #   else
-    #     self.with_gallery.without_consolidated_images.sample
-    #   end
-    #
-    #   return nil if feature.nil?
-    #
-    #   result = nil
-    #   if feature
-    #
-    #     images = feature.gallery.gallery_entries.select{|g| g.image }
-    #
-    #     if images.present?
-    #       result = {
-    #         :feature_id => feature.whs_site_id,
-    #         :name => feature.title,
-    #         :pics => images.map{|gallery| {:pic_id => gallery.id, :url_big => gallery.image.thumbnail(:large).url, :url_small => gallery.image.thumbnail(:small).url}}
-    #       }
-    #     end
-    #   end
-    #   result
-    # end
-    #
     # # Gets a randome feature from database, distinct from the one specified
     # def random_one_distinct_from(feature)
     #   scoped.random.limit(1).where('id != ?', feature.id).first
@@ -128,16 +132,6 @@ class Feature
 
     #
     # attr_writer :lat, :lng
-    #
-    # # Returns all features without consolidated images
-    # scope :without_consolidated_images, where('meta not like ?', "%:images_consolidated: true%")
-    #
-    # # Returns all features with consolidated images
-    # scope :with_consolidated_images, where('meta like ?', "%:images_consolidated: true%")
-    #
-    # # Returns all features with a gallery associated
-    # scope :with_gallery, where('gallery_id IS NOT NULL')
-    #
     # # Adds a field 'distance' with the calculated distance from feature to specified point
     # scope :with_distance_to, lambda{|point| select("#{custom_fields.join(', ')}, ST_Distance(the_geom::geography, GeomFromText('POINT(#{point.x} #{point.y})', 4326)) as distance") }
     #

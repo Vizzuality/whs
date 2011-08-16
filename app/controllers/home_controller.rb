@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
 
   def index
-    @features = Feature.random
-    @closests_features = @features
+    @features = Feature.random(user_latlong)
+    @closests_features = Feature.random(user_latlong)
   end
 
 end

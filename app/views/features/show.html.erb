@@ -39,8 +39,8 @@
 
       <% if @feature.images_ids.present? %>
         <div id="gallery">
-          <% @feature.images_ids.to_s.split(',').each_with_index do |image_id,i| %>
-            <%= image_tag Feature.large_image_url(image_id), :title => "Photo by " + 'gallery_entry.image.author', :alt=> 'gallery_entry.image.author_url', :id =>i %>
+          <% Feature.images(@feature).each_with_index do |image,i| %>
+            <%= image_tag Feature.large_image_url(image.id), :title => "Photo by " + image.author, :alt=> image.author_url, :id =>i %>
           <% end %>
           <script>
             Galleria.loadTheme('/javascripts/galleria.classic.js');
@@ -72,8 +72,8 @@
 
             </div>
             <div id="img_thumb">
-              <% if @feature.images_ids.present? %>
-                <%= image_tag Feature.tiny_image_url(Feature.image_id(@feature)), :alt => @feature.title %>
+              <% if Feature.images(@feature).present? %>
+                <%= image_tag Feature.tiny_image_url(Feature.images(@feature).first.id), :alt => @feature.title %>
                 <% else %>
                 <img src="/images/test/test_small.jpg">
               <% end %>
@@ -132,18 +132,16 @@
         <ul id="image_list">
           <% @nearest_places.each do |feature|%>
           <li class="mosaic_element<%= cycle('',' middle','', :name => 'mosaic') %> no_border">
-            <a href="/features/<%=feature.id%>">
+            <a href="/features/<%=feature.cartodb_id%>">
             <div class="mosaic_element_div">
-
-              <% if feature.gallery && feature.gallery.gallery_entries.any? %>
-                <%= image_tag feature.gallery.gallery_entries.first.image.thumbnail(:small).url, :alt => feature.title %>
+              <% if Feature.images(feature).present?.present? %>
+                <%= image_tag Feature.small_image_url(Feature.images(feature).first.id), :alt => feature.title %>
               <% else %>
                 <img src="/images/default_mosaic.png">
               <% end %>
-
               <div class="mosaic_label">
                 <p class="place"><span><%=truncate(feature.title,:length=>60,:delimiter=>"...")%></span></p>
-                <p class="distance"><%= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+                <p class="distance"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
               </div>
             </div>
             </a>
@@ -163,7 +161,7 @@
   <div class="middle">
     <div class="content">
       <div id="message">Or would you rather be randomly teleported to a new beautiful site?</div>
-      <%= link_to '"Bean me up, Scotty!"', feature_path(@random_feature), :class => "teleport_#{feature_type}"  , :id => 'green'%>
+      <%= link_to '"Bean me up, Scotty!"', feature_path(@random_feature.cartodb_id), :class => "teleport_#{feature_type}"  , :id => 'green'%>
     </div>
   </div>
   <div class="bottom"></div>

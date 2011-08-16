@@ -5,8 +5,8 @@
       <li class="mosaic_element<%= cycle('',' middle','', :name => 'mosaic') %>">
         <a href="/features/<%=feature.cartodb_id%>">
         <div class="mosaic_element_div">
-          <% if feature.images_ids.present? %>
-            <%= image_tag Feature.small_image_url(@features.first), :alt => feature.title %>
+          <% if Feature.images(feature).present? %>
+            <%= image_tag Feature.small_image_url(Feature.images(feature).first.id), :alt => feature.title %>
           <% else %>
             <img src="/images/default_mosaic.png">
           <% end %>
