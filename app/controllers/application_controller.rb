@@ -19,9 +19,9 @@ class ApplicationController < ActionController::Base
   private :application_installed?
 
   def geolocate_user
-    if Rails.env.production?
-      session[:user_location] = request.location if session[:user_location].blank?
-    else
+    # if Rails.env.production?
+    #   session[:user_location] = request.location if session[:user_location].blank?
+    # else
       session[:user_location] = {
         "ip"           => "127.0.0.1",
         "city"         => "Madrid",
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
         "country_name" => "Spain",
         "country_code" => "SP"
       }
-    end
+    # end
   end
   private :geolocate_user
 
