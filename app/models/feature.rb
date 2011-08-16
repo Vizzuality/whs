@@ -48,9 +48,10 @@ class Feature
       columns.reject{|c| Cartoset::Constants::COMMON_FEATURES_FIELDS.include?(c[:name])}
     end
 
-    def random(location, order_by_distance = false)
+    def random(location, order_by_distance = false, not_being_feature = nil)
       order = 'ORDER BY RANDOM()'
       order = "ORDER BY ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326))" if order_by_distance
+      where = "WHERE cartodb_id <> #{not_being_feature.cartodb_id}" if not_being_feature.present?
       sql = <<-SQL
         SELECT
           cartodb_id,
@@ -61,6 +62,7 @@ class Feature
           ST_Y(ST_Transform(the_geom, 4326)) as latitude,
           ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326)) as distance
         FROM #{features_table_name}
+        #{where}
         #{order}
         LIMIT 9
       SQL
