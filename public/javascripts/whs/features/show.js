@@ -53,24 +53,24 @@ $(document).ready( function(){
         ev.preventDefault();
         map.setZoom(map.getZoom()-1);
     });
-    
-    
+
+
     // Map customization
     var myOptions = {
       zoom: 8,
       disableDefaultUI: true,
-      center: new google.maps.LatLng(feature['the_geom']['y'], feature['the_geom']['x']),
+      center: new google.maps.LatLng(feature['latitude'], feature['longitude']),
       mapTypeId: google.maps.MapTypeId.TERRAIN
     };
     map = new google.maps.Map(document.getElementById("big_map"), myOptions);
 
     // Adding the marker
-    var image = new google.maps.MarkerImage("/images/explore/marker_" + feature['meta']['type'] + ".png",
+    var image = new google.maps.MarkerImage("/images/explore/marker_" + feature['type'] + ".png",
           new google.maps.Size(38, 34),
           new google.maps.Point(0,0),
           new google.maps.Point(12, 32));
 
-    latlng = new google.maps.LatLng(feature['the_geom']['y'], feature['the_geom']['x']);
+    latlng = new google.maps.LatLng(feature['latitude'], feature['longitude']);
     var marker = new google.maps.Marker({
       position: latlng,
       map: map,
@@ -81,18 +81,18 @@ $(document).ready( function(){
 
 
     $.each(nearest_places, function(index, place){
-      var image = new google.maps.MarkerImage("/images/marker_" + place['feature']['meta']['type'] + "_mini.png",
+      var image = new google.maps.MarkerImage("/images/marker_" + place['type'] + "_mini.png",
             new google.maps.Size(25, 23),
             new google.maps.Point(0,0),
             new google.maps.Point(8, 19));
       marker = new google.maps.Marker({
-        position: new google.maps.LatLng(place['feature']['lat'], place['feature']['lon']),
+        position: new google.maps.LatLng(place['latitude'], place['longitude']),
         map: map,
-        title: place['feature']['title'],
+        title: place['title'],
         icon: image
       });
 
-      google.maps.event.addListener(marker, "click", function() { window.location = "/features/" + place['feature']['id'];  });
+      google.maps.event.addListener(marker, "click", function() { window.location = "/features/" + place['cartodb_id'];  });
     });
 
     google.setOnLoadCallback(drawGeodesicLine);
@@ -103,7 +103,7 @@ $(document).ready( function(){
     var poly, geodesic;
     if (google.loader.ClientLocation) {
       var userLatLng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
-      
+
       var geodesic_points = [latlng,userLatLng];
       var geodesicOptions = {
         path: geodesic_points,

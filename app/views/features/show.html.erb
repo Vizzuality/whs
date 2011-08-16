@@ -3,14 +3,14 @@
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script type="text/javascript">
 
-    var feature = <%= @feature.to_json.html_safe %>['feature'];
+    var feature = <%= @feature_json %>;
 
     var imageInfo = null;
-    <% #if @feature.gallery && @feature.gallery.gallery_entries.any? %>
-    // imageInfo = <%#= @feature.gallery.gallery_entries.map{|ge| {:author => ge.image.author, :author_url => ge.image.author_url } }.to_json.html_safe %>;
-    <% #end %>
+    <% if @images_info_json.present? %>
+    imageInfo = <%= @images_info_json %>;
+    <% end %>
 
-    var nearest_places = <%= @nearest_places.to_json.html_safe %>;
+    var nearest_places = <%= @nearest_places_json %>;
 
   </script>
   <%= raw include_javascripts :feature %>
@@ -68,7 +68,7 @@
         <div id="data_column">
           <div class="map_container">
             <div id="map">
-              <img src="http://maps.google.com/maps/api/staticmap?center=<%#= @feature.the_geom.y %>,<%#= @feature.the_geom.x %>&zoom=8&size=235x162&maptype=terrain&markers=icon:/images/explore/marker_natural.png|<%#= @feature.the_geom.y %>,<%#= @feature.the_geom.x %>&sensor=false"/>
+              <img src="http://maps.google.com/maps/api/staticmap?center=<%= @feature.the_geom.y %>,<%= @feature.the_geom.x %>&zoom=8&size=235x162&maptype=terrain&markers=icon:/images/explore/marker_natural.png|<%= @feature.the_geom.y %>,<%= @feature.the_geom.x %>&sensor=false"/>
 
             </div>
             <div id="img_thumb">

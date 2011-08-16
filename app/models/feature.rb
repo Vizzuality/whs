@@ -56,11 +56,15 @@ class Feature
           cartodb_id,
           title,
           images_ids,
+          type,
+          ST_X(ST_Transform(the_geom, 4326)) as longitude,
+          ST_Y(ST_Transform(the_geom, 4326)) as latitude,
           ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326)) as distance
         FROM #{features_table_name}
         #{order}
         LIMIT 9
       SQL
+
       # sql = <<-SQL
       #   SELECT
       #     cartodb_id,
