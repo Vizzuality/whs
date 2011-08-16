@@ -6,7 +6,6 @@ module CartoDB
 
       def signed_request(request_uri, arguments)
         arguments[:disable_ssl_peer_verification] = true
-
         if settings['api_key']
           arguments[:params] = {}.merge!(arguments[:params])
           arguments[:params][:api_key] = settings['api_key']
@@ -34,7 +33,7 @@ module CartoDB
         response = Typhoeus::Request.get(request_token.authorize_url,
           'authorize'                    => '1',
           'oauth_token'                  => request_token.token,
-          :disable_ssl_peer_verification => true,
+          :disable_ssl_peer_verification => !settings['ssl_peer_verification'],
           :verbose                       => settings['debug']
         )
 

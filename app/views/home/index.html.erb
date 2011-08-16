@@ -15,7 +15,7 @@
                 <%= image_tag Feature.large_image_url(Feature.images(@features.first).first.id), :alt => @features.first.title %>
                 <div class="big_label">
                   <p class="place"><span><%=truncate(@features.first.title,:length=>60,:delimiter=>"...")%></span></p>
-                  <p class="distance">4 hours by car from Madrid</p>
+                  <p class="distance"><%= itinerary_time_and_type(Feature.distance_in_time(@features.first), @user_city) %></p>
                 </div>
 
               <% else %>
@@ -36,7 +36,7 @@
               <% end %>
               <div class="mosaic_label">
                 <p class="place"><span><%=truncate(feature.title,:length=>60,:delimiter=>"...")%></span></p>
-                <p class="distance"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+                <p class="distance"><%= itinerary_time_and_type(Feature.distance_in_time(feature), @user_city) %></p>
               </div>
             </div>
             </a>
@@ -58,7 +58,7 @@
           <% @closests_features.each do |feature|%>
           <li <%= cycle('','','class=\'last\'', :name => 'classname') %> >
             <%= link_to truncate(feature.title,:length => 35, :delimiter => '...'), feature_path(feature.cartodb_id), :title => feature.title %>
-            <p><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+            <p><%= itinerary_time_and_type(Feature.distance_in_time(feature), @user_city) %></p>
           </li>
           <% end %>
         </ul>

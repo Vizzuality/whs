@@ -43,6 +43,13 @@ class ApplicationController < ActionController::Base
   end
   private :user_latlong
 
+  def user_city
+    city = ''
+    city = session[:user_location]['city'].capitalize if user_geolocated? && session[:user_location]['city']
+    city
+  end
+  private :user_city
+
   def user_geolocated?
     session[:user_location] && session[:user_location]['longitude'] && session[:user_location]['latitude']
   end

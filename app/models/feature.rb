@@ -48,25 +48,28 @@ class Feature
       columns.reject{|c| Cartoset::Constants::COMMON_FEATURES_FIELDS.include?(c[:name])}
     end
 
-    def random(user_location)
-      # sql = <<-SQL
-      #   SELECT
-      #     cartodb_id,
-      #     title,
-      #     images_ids,
-      #     ST_Distance(the_geom::geography, GeomFromText('POINT(#{user_location.y} #{user_location.x})', 4326)) as distance
-      #   FROM #{features_table_name}
-      #   ORDER BY RANDOM()
-      # SQL
+    def random(location, order_by_distance = false)
+      order = 'ORDER BY RANDOM()'
+      order = "ORDER BY ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326))" if order_by_distance
       sql = <<-SQL
         SELECT
           cartodb_id,
           title,
-          images_ids
+          images_ids,
+          ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326)) as distance
         FROM #{features_table_name}
-        ORDER BY RANDOM()
+        #{order}
         LIMIT 9
       SQL
+      # sql = <<-SQL
+      #   SELECT
+      #     cartodb_id,
+      #     title,
+      #     images_ids
+      #   FROM #{features_table_name}
+      #   ORDER BY RANDOM()
+      #   LIMIT 9
+      # SQL
 
       query sql
     end
@@ -103,6 +106,10 @@ class Feature
       feature.images_ids.is_a?(String) ? feature.images_ids.split(',').first : feature.images_ids.to_i
     end
 
+    def distance_in_time(feature)
+      calculate_itinerary(feature.distance.to_f) if feature.distance.present?
+    end
+
     def query(sql, params = nil)
       results = CartoDB::Connection.query sql, params
       return results[:rows] if results && results[:rows]
@@ -115,6 +122,25 @@ class Feature
     end
     private :features_table_name
 
+    def calculate_itinerary(distance)
+      itinerary = {}
+      case
+      # Distance is less than 500 meters, we're going by walking
+      when distance < 500
+        itinerary[:type] = 'walking'
+        itinerary[:time] = (distance * 1.10 / 5_000).hours.ago
+      # Distance is between 500 meters and 800 kilometers, we're going by car
+      when distance >= 500 && distance < 800_000
+        itinerary[:type] = 'car'
+        itinerary[:time] = (distance * 1.30 / 120_000).hours.ago
+      # Distance is greater than 800 kilometers, we're going by plane
+      when distance >= 800_000
+        itinerary[:type] = 'plane'
+        itinerary[:time] = (distance / 700_000).hours.ago
+      end
+      itinerary
+    end
+    private :calculate_itinerary
     # # By default, removes 'the_geom' from the default select columns
     # def custom_fields
     #   lat_long       = ['ST_Y(the_geom) as lat', 'ST_X(the_geom) as lon']
@@ -186,29 +212,6 @@ class Feature
     #   itinerary
     # end
     #
-    # def distance_in_time
-    #   calculate_itinerary(distance.to_f) if distance?
-    # end
-    #
-    # def calculate_itinerary(distance)
-    #   itinerary = {}
-    #   case
-    #   # Distance is less than 500 meters, we're going by walking
-    #   when distance < 500
-    #     itinerary[:type] = 'walking'
-    #     itinerary[:time] = (distance * 1.10 / 5_000).hours.ago
-    #   # Distance is between 500 meters and 800 kilometers, we're going by car
-    #   when distance >= 500 && distance < 800_000
-    #     itinerary[:type] = 'car'
-    #     itinerary[:time] = (distance * 1.30 / 120_000).hours.ago
-    #   # Distance is greater than 800 kilometers, we're going by plane
-    #   when distance >= 800_000
-    #     itinerary[:type] = 'plane'
-    #     itinerary[:time] = (distance / 700_000).hours.ago
-    #   end
-    #   itinerary
-    # end
-    # private :calculate_itinerary
     #
     # # Query google directions to obtain itinerary from location to the feature
     # def query_google_directions(location, mode = 'driving')
