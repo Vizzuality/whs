@@ -62,7 +62,7 @@
 
       <div class="content">
         <div id="main_area">
-          <%#= simple_format truncate(@feature.description, :length => 2000) %>
+          <%= simple_format truncate(@feature.description, :length => 2000) %>
           <div id="wikipedia">You can find more information at <a href="<%=@feature.wikipedia_link%>">Wikipedia</a>.</div>
         </div>
         <div id="data_column">

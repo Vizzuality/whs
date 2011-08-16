@@ -12,7 +12,7 @@
           <div id="big_image">
               <% if @features.first.images_ids.present? %>
 
-                <%= image_tag Feature.large_image_url(@features.first), :alt => @features.first.title %>
+                <%= image_tag Feature.large_image_url(Feature.image_id(@features.first)), :alt => @features.first.title %>
                 <div class="big_label">
                   <p class="place"><span><%=truncate(@features.first.title,:length=>60,:delimiter=>"...")%></span></p>
                   <p class="distance">4 hours by car from Madrid</p>
@@ -30,7 +30,7 @@
             <a href="/features/<%=feature.cartodb_id%>">
             <div class="mosaic_element_div">
               <% if feature.images_ids.present? %>
-                <%= image_tag Feature.small_image_url(feature), :alt => feature.title %>
+                <%= image_tag Feature.small_image_url(Feature.image_id(feature)), :alt => feature.title %>
               <% else %>
                 <img src="/images/default_mosaic.png">
               <% end %>
