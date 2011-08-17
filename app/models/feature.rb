@@ -16,7 +16,7 @@ class Feature
 
       if params && params[:q].present?
         query = params[:q].sanitize_sql!
-        where << "title ILIKE '%#{query}%'"
+        where << "title ILIKE '%#{query}%' OR description ILIKE '%#{query}%'"
       end
 
       # Search features by specified type

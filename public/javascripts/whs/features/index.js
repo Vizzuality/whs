@@ -41,12 +41,12 @@ var
     addMarkers = function(){
       $.each(features, function(index, feature){
         latlng = new google.maps.LatLng(feature['lat'], feature['lon']);
-        
+
         var image = new google.maps.MarkerImage("/images/explore/marker_" + feature['type'] + ".png",
               new google.maps.Size(38, 34),
               new google.maps.Point(0,0),
               new google.maps.Point(12, 32));
-        
+
         marker = new google.maps.Marker({
           position: latlng,
           title: feature['title'],
@@ -68,8 +68,6 @@ var
           $('#results').empty();
         };
         $('#results').append(html);
-        $('a#list_selector').removeClass('selected');
-        $('a#mosaic_selector').addClass('selected');
         if ($('#results div.mosaic ul li').size()==18 && !$('a#pagination').is(':visible')) {
           $('div#explore div.middle').append('<a href="#more_results" id="pagination">More results</a>');
         } else {
@@ -141,19 +139,13 @@ var
     $("a#mosaic_selector").click(function(ev) {
       ev.stopPropagation();
       ev.preventDefault();
-      
+
       if (!$(this).hasClass('selected')) {
         $("a#mosaic_selector").addClass("selected");
         $("a#list_selector").removeClass("selected");
-        
-        $('div#results div.list').fadeOut(function(){
-          $('div#results div.mosaic').css('zIndex',10);
-          $('div#results div.list').appendTo('div#results');
-          var list = $('div#results div.list');
-          list.css('zIndex','5');
-          list.css('display','block');
-        });    
-        $('div#results').height('645px');
+        $('div#results').addClass('mosaic').removeClass('list');
+        $('div#results div.list').fadeOut('fast');
+        $('div#results div.mosaic').fadeIn('fast');
       }
     });
 
@@ -161,18 +153,13 @@ var
     $("a#list_selector").click(function(ev) {
       ev.stopPropagation();
       ev.preventDefault();
-      
+
       if (!$(this).hasClass('selected')) {
         $("a#mosaic_selector").removeClass("selected");
         $("a#list_selector").addClass("selected");
-        $('div#results div.mosaic').fadeOut(function(){
-          $('div#results div.list').css('zIndex',10);
-          $('div#results div.mosaic').appendTo('div#results');
-          var mosaic = $('div#results div.mosaic');
-          mosaic.css('zIndex','5');
-          mosaic.css('display','block');
-        });
-        $('div#results').height('648px');
+        $('div#results').removeClass('mosaic').addClass('list');
+        $('div#results div.mosaic').fadeOut('fast');
+        $('div#results div.list').fadeIn('fast');
       }
     });
 
@@ -205,7 +192,7 @@ var
       } else {
         var text = $(this).text();
       }
-      
+
       $("a#criteria_label").text(text);
     });
 
@@ -235,18 +222,18 @@ var
     },function(){
       $("h1").css('display','block').stop().fadeTo('200',1);
     });
-    
-    
+
+
     $('a#zoomin').click(function(ev){
       ev.preventDefault();
       map.setZoom(map.getZoom() + 1);
     });
-    
+
     $('a#zoomout').click(function(ev){
       ev.preventDefault();
       map.setZoom(map.getZoom() - 1);
     });
-    
+
 
 
     var myOptions = {
@@ -259,13 +246,13 @@ var
     map = new google.maps.Map(document.getElementById("map"), myOptions);
 
     addMarkers();
-    
+
     markerClusterer = new MarkerClusterer(map, markers, {
       maxZoom: 18,
       gridSize: 40,
       styles: styles[0]
     });
-    
+
   });
 
 Array.max = function( array ){

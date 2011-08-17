@@ -149,13 +149,15 @@ div#filter a.selected#mosaic_selector, a.selected#list_selector{background-posit
 
 
 
+div#explore div#results {width:896px; overflow:hidden;}
+div#explore div#results.mosaic div.mosaic { display: block; }
+div#explore div#results.list div.list { display: block; }
 /* Mosaico */
-div#explore div#results {width:896px; height:645px; overflow:hidden;}
-div#explore div#results div.mosaic {position:absolute; display:block; width:880px; height:644px; margin:0 8px 0 8px; background: #FFFFFF; z-index:10; border-bottom:1px solid black;}
+div#explore div#results div.mosaic { display:none; width:880px; height:644px; margin:0 8px 0 8px; background: #FFFFFF; border-bottom:1px solid black;}
 div#explore div#results div.mosaic ul {height: 645px;}
 
 /* List */
-div#explore div#results div.list {position:absolute; top:0; left:0; display:block; width:880px; height:645px; margin: 0 8px 0 8px; background-color:#FFFFFF; color: #000000; z-index:5;}
+div#explore div#results div.list { display:none; width:880px; height:645px; margin: 0 8px 0 8px; background-color:#FFFFFF; color: #000000; }
 div#explore div#results div.list ul {float:left; height:645px; background:white;}
 div#explore div#results div.list ul li {width:830px; height:31px; padding: 20px 25px 20px 25px; border-bottom: 1px solid #999999; background:white;}
 div#explore div#results div.list ul li h3 a {font: normal 18px "PT Sans Bold"; color: #FF9900; text-decoration: none;}
