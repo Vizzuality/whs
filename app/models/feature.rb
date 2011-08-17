@@ -145,16 +145,7 @@ class Feature
     private :calculate_itinerary
 
     def distance_to origin, point
-      distance = 0
-      results = query <<-SQL
-        SELECT
-          ST_Distance(the_geom::geography, GeomFromText('POINT(#{point.x} #{point.y})', 4326)) as distance
-        FROM #{features_table_name}
-        WHERE cartodb_id = #{origin.cartodb_id}
-      SQL
-
-      distance = results.first.distance if results.present?
-      distance.to_i
+      origin.the_geom.distance(point)
     end
     private :distance_to
 
