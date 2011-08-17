@@ -5,7 +5,7 @@ class FeaturesController < ApplicationController
 
   def index
     @features = Feature.search(params)
-    @features_json = @features.map{|f| {:lat => f.latitude, :lon => f.latitude, :title => f.title, :id => f.id, :type => f.type} }.to_json.html_safe
+    @features_json = @features.map{|f| {:lat => f.latitude, :lon => f.latitude, :title => f.title, :id => f.cartodb_id, :type => f.type} }.to_json.html_safe
 
     render :partial => 'features' if request.xhr?
   end
