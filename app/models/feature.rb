@@ -27,6 +27,8 @@ class Feature
 
       where = where.any?? "WHERE #{where.join(' AND ')}" : ''
 
+      pagination = "LIMIT 9 OFFSET #{(current_page(params) - 1) * 9}"
+
       sql = <<-SQL
         SELECT
           cartodb_id,
@@ -38,9 +40,10 @@ class Feature
           ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326)) as distance
         FROM #{features_table_name}
         #{where}
+        #{pagination}
       SQL
 
-      query sql, :page => current_page(params), :rows_per_page => 9
+      query sql
     end
 
     def valid_type?(params)
@@ -54,7 +57,7 @@ class Feature
     end
 
     def current_page(params)
-      params[:page] || 1 if params
+      Integer(params[:page]) rescue 1
     end
 
     def non_common_fields
