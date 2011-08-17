@@ -112,6 +112,17 @@ class Feature
       itinerary
     end
 
+    def count(type = nil)
+      where = "WHERE type = '#{type.to_s}'" if type.present?
+      results = query <<-SQL
+        SELECT COUNT(cartodb_id)
+        FROM #{features_table_name}
+        #{where}
+      SQL
+
+      results.first.count if results.present?
+    end
+
     def query(sql, params = nil)
       results = CartoDB::Connection.query sql, params
       return results[:rows] if results && results[:rows]
