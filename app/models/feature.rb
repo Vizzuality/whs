@@ -158,47 +158,6 @@ class Feature
     end
     private :distance_to
 
-    # # By default, removes 'the_geom' from the default select columns
-    # def custom_fields
-    #   lat_long       = ['ST_Y(the_geom) as lat', 'ST_X(the_geom) as lon']
-    #   (columns.map{ |c| c.name } - ['the_geom']).map{ |c| "#{self.table_name}.#{c}" } + lat_long
-    # end
-    #
-    # # Returns all heritage sites with the specified whs site id (must be only one ALWAYS)
-    # def by_whs_site_id(id)
-    #   scoped.where('meta like ?', "%:whs_site_id: \"#{id}\"%").limit(1).first
-    # end
-    # # Gets a randome feature from database, distinct from the one specified
-    # def random_one_distinct_from(feature)
-    #   scoped.random.limit(1).where('id != ?', feature.id).first
-    # end
-
-    #
-    # attr_writer :lat, :lng
-    # # Adds a field 'distance' with the calculated distance from feature to specified point
-    # scope :with_distance_to, lambda{|point| select("#{custom_fields.join(', ')}, ST_Distance(the_geom::geography, GeomFromText('POINT(#{point.x} #{point.y})', 4326)) as distance") }
-    #
-    # # Returns features ordered by closest to specified point
-    # scope :close_to, lambda{|point| order("ST_Distance(the_geom::geography, GeomFromText('POINT(#{point.x} #{point.y})', 4326))") }
-    #
-    # # Orders features randomly
-    # scope :random, order("RANDOM()")
-    #
-    # # Adds the geom to the list of selected fields (removed by default to improve performance)
-    # scope :with_the_geom, select('the_geom')
-    #
-    # # Gets all natural features
-    # scope :natural, where('meta like ?', "%:type: natural%")
-    #
-    # # Gets all cultural features
-    # scope :cultural, where('meta like ?', "%:type: cultural%")
-    #
-    # # Filters query by feature criteria
-    # scope :by_criteria, lambda{|criteria| where('meta like ?', "%#{criteria}%") }
-    #
-    # # Filter query search matches in description or meta fields
-    # scope :search, lambda{|q| where('description like ? OR meta like ?', "%#{q}%", "%#{q}%")}
-
   end
 
 end
