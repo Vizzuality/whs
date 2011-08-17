@@ -25,7 +25,7 @@
           </a>
 
           <ul id="image_list">
-          <% @features.first(6).each do |feature|%>
+          <% @features.from(1).to(8).each do |feature|%>
           <li class="mosaic_element<%= cycle('',' middle','', :name => 'mosaic') %>">
             <a href="/features/<%=feature.cartodb_id%>">
             <div class="mosaic_element_div">

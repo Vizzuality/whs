@@ -80,7 +80,7 @@ class Feature
         FROM #{features_table_name}
         #{where}
         #{order}
-        LIMIT 9
+        LIMIT 10
       SQL
 
       query sql
