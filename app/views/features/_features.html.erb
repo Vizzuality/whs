@@ -13,7 +13,7 @@
 
           <div class="mosaic_label">
             <p class="place"><span><%= truncate(feature.title,:length => 60, :delimiter => "...")%></span></p>
-            <p class="distance"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></p>
+            <p class="distance"><%= itinerary_time_and_type(Feature.distance_in_time(feature), @user_city) %></p>
           </div>
         </div>
         </a>
@@ -33,7 +33,7 @@
     <% @features.each do |feature, itinerary|%>
     <li>
       <h3><a href="/features/<%=feature.cartodb_id%>"><%=truncate(feature.title,:length=>50,:delimiter=>"...") %></a></h3>
-      <span class="description"><%#= itinerary_time_and_type(feature.distance_in_time, @user_city) %></span>
+      <span class="description"><%= itinerary_time_and_type(Feature.distance_in_time(feature), @user_city) %></span>
     </li>
     <% end %>
   <% else %>

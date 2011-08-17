@@ -10,7 +10,7 @@ class Feature
       CartoDB::Connection.query("SELECT * FROM #{features_table_name} WHERE cartodb_id = #{id}")
     end
 
-    def search(params)
+    def search(params, location)
 
       where = []
 
@@ -27,7 +27,20 @@ class Feature
 
       where = where.any?? "WHERE #{where.join(' AND ')}" : ''
 
-      query "SELECT * FROM #{features_table_name} #{where}", :page => current_page(params), :rows_per_page => 9
+      sql = <<-SQL
+        SELECT
+          cartodb_id,
+          title,
+          images_ids,
+          type,
+          ST_X(ST_Transform(the_geom, 4326)) as longitude,
+          ST_Y(ST_Transform(the_geom, 4326)) as latitude,
+          ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326)) as distance
+        FROM #{features_table_name}
+        #{where}
+      SQL
+
+      query sql, :page => current_page(params), :rows_per_page => 9
     end
 
     def valid_type?(params)
