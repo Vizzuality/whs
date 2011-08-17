@@ -3,6 +3,7 @@ class SetupController < ApplicationController
 
   layout 'setup'
 
+  before_filter :redirect_to_root_if_invalid_env
   skip_before_filter :show_setup_wizard_if_uninstalled
 
   def step
@@ -49,4 +50,9 @@ class SetupController < ApplicationController
 
     render :json => table.to_json
   end
+
+  def redirect_to_root_if_invalid_env
+    redirect_to root_path and return unless Rails.env.development? || Rails.env.test?
+  end
+  private :redirect_to_root_if_invalid_env
 end

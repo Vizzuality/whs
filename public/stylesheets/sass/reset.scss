@@ -22,11 +22,13 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-blockquote:before, blockquote:after {
-  content: ""; }
+blockquote {
+  &:before, &:after {
+    content: ""; } }
 
-q:before, q:after {
-  content: ""; }
+q {
+  &:before, &:after {
+    content: ""; } }
 
 blockquote, q {
   quotes: "" ""; }
