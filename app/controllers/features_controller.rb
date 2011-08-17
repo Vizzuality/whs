@@ -22,9 +22,9 @@ class FeaturesController < ApplicationController
     @nearest_places_json = @nearest_places.map{|f| {:cartodb_id => f.cartodb_id, :type => f.type, :latitude => f.latitude, :longitude => f.longitude, :distance => f.distance} }.to_json.html_safe
     @images_info_json    = Feature.images(@feature).map{|image_data| {:author => image_data.author, :author_url => image_data.author_url } }.to_json.html_safe if Feature.images(@feature).present?
 
-    # itinerary       = @feature.itinerary_time_to location_point
-    # @itinerary_time = itinerary[:time]
-    # @itinerary_type = itinerary[:type]
+    itinerary       = Feature.itinerary_time_to(@feature, location_point)
+    @itinerary_time = itinerary[:time]
+    @itinerary_type = itinerary[:type]
 
   end
 

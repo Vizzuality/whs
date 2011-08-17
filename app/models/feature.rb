@@ -67,16 +67,6 @@ class Feature
         LIMIT 9
       SQL
 
-      # sql = <<-SQL
-      #   SELECT
-      #     cartodb_id,
-      #     title,
-      #     images_ids
-      #   FROM #{features_table_name}
-      #   ORDER BY RANDOM()
-      #   LIMIT 9
-      # SQL
-
       query sql
     end
 
@@ -116,6 +106,12 @@ class Feature
       calculate_itinerary(feature.distance.to_f) if feature.distance.present?
     end
 
+    def itinerary_time_to(origin, location)
+      itinerary = {:time => '0 hours'}
+      itinerary = calculate_itinerary distance_to(origin, location) if location.present?
+      itinerary
+    end
+
     def query(sql, params = nil)
       results = CartoDB::Connection.query sql, params
       return results[:rows] if results && results[:rows]
@@ -147,6 +143,21 @@ class Feature
       itinerary
     end
     private :calculate_itinerary
+
+    def distance_to origin, point
+      distance = 0
+      results = query <<-SQL
+        SELECT
+          ST_Distance(the_geom::geography, GeomFromText('POINT(#{point.x} #{point.y})', 4326)) as distance
+        FROM #{features_table_name}
+        WHERE cartodb_id = #{origin.cartodb_id}
+      SQL
+
+      distance = results.first.distance if results.present?
+      distance.to_i
+    end
+    private :distance_to
+
     # # By default, removes 'the_geom' from the default select columns
     # def custom_fields
     #   lat_long       = ['ST_Y(the_geom) as lat', 'ST_X(the_geom) as lon']
@@ -189,60 +200,5 @@ class Feature
     # scope :search, lambda{|q| where('description like ? OR meta like ?', "%#{q}%", "%#{q}%")}
 
   end
-
-    # def consolidate_images(pics_ids)
-    #   pics_ids = pics_ids.split(',').map{|id| id.to_i}
-    #   images = []
-    #   pics_ids.each do |pic_id|
-    #     images << [GalleryEntry.find(pic_id).name, GalleryEntry.find(pic_id).image]
-    #   end
-    #
-    #   gallery.gallery_entry_ids = nil
-    #   images.each do |image|
-    #     gallery.gallery_entries.create! :name => image.first, :image_id => image.last.id
-    #   end
-    #   meta[:images_consolidated] = true
-    #   save!
-    # end
-    #
-    # def distance_to point
-    #   distance = 0
-    #   results = Feature.select("ST_Distance(the_geom::geography, GeomFromText('POINT(#{point.x} #{point.y})', 4326)) as distance").where(:id => self.id).first
-    #   distance = results.distance if results
-    #   distance.to_i
-    # end
-    #
-    # def itinerary_time_to(location)
-    #   itinerary = {:time => '0 hours'}
-    #   itinerary = calculate_itinerary distance_to location if location.present?
-    #   itinerary
-    # end
-    #
-    #
-    # # Query google directions to obtain itinerary from location to the feature
-    # def query_google_directions(location, mode = 'driving')
-    #   require 'net/http'
-    #   origin = "#{the_geom.y},#{the_geom.x}"
-    #   destination = "#{location.y},#{location.x}"
-    #   url = "http://maps.google.com/maps/api/directions/json?mode=#{mode}&origin=#{origin}&destination=#{destination}&sensor=false".gsub(" ", "+")
-    #   response = Net::HTTP.get(::URI.parse(url))
-    #   directions = JSON.parse(response) if response
-    #   directions
-    # end
-    # private :query_google_directions
-
-    # def lat
-    #   self.the_geom? && self.the_geom.y ? self.the_geom.y : @lat
-    # end
-    # alias latitude lat
-    #
-    # def lon
-    #   self.the_geom? && self.the_geom.x ? self.the_geom.x : @lon
-    # end
-    # alias longitude lon
-    #
-    # def to_json
-    #   super(:methods => [:lat, :lon])
-    # end
 
 end
