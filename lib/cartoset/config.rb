@@ -54,7 +54,9 @@ class Cartoset::Config
         cartodb_settings = {
           'host'         => settings['cartodb_host'] || CARTODB_DEFAULT_HOST,
           'oauth_key'    => settings['cartodb_oauth_key'],
-          'oauth_secret' => settings['cartodb_oauth_secret']
+          'oauth_secret' => settings['cartodb_oauth_secret'],
+          'username'     => settings['cartodb_username'],
+          'password'     => settings['cartodb_password']
         }
 
         CartoDB::Init.start Cartoset::Application, cartodb_settings

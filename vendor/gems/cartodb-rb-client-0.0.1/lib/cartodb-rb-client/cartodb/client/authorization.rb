@@ -22,7 +22,8 @@ module CartoDB
 
         request = Typhoeus::Request.new(access_token_url,
           :method => :post,
-          :params => {:x_auth_mode => :client_auth, :x_auth_username => CartoDB::Settings['username'], :x_auth_password => CartoDB::Settings['password']}
+          :params => {:x_auth_mode => :client_auth, :x_auth_username => CartoDB::Settings['username'], :x_auth_password => CartoDB::Settings['password']},
+          :disable_ssl_peer_verification => true
         )
 
         helper = OAuth::Client::Helper.new(request, {:consumer => oauth_consumer, :request_uri => access_token_url})
@@ -35,8 +36,6 @@ module CartoDB
         values = request.response.body.split('&').inject({}) { |h,v| h[v.split("=")[0]] = v.split("=")[1]; h }
 
         @access_token = OAuth::AccessToken.new(oauth_consumer, values["oauth_token"], values["oauth_token_secret"])
-        # Get an access token with the verifier
-        # @access_token = request_token.get_access_token(:oauth_verifier => verifier)
       end
       private :access_token
 
