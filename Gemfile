@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.5'
 
-gem 'cartodb-rb-client', '0.0.1', :path => "vendor/gems/cartodb-rb-client-0.0.1"
+gem 'cartodb-rb-client', :git => 'git@github.com:Vizzuality/cartodb-rb-client.git'
 gem 'sass'
 
 gem 'heroku'

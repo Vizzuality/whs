@@ -1,16 +1,17 @@
-PATH
-  remote: vendor/gems/cartodb-rb-client-0.0.1
+GIT
+  remote: git@github.com:Vizzuality/cartodb-rb-client.git
+  revision: fa6f53fadaba6433f1a570e59636b6f1028871c9
   specs:
     cartodb-rb-client (0.0.1)
       activesupport (= 3.0.5)
       i18n (= 0.5.0)
-      json (= 1.5.1)
+      json (= 1.5.3)
       mime-types (= 1.16)
       omniauth (= 0.1.6)
       pg (= 0.11.0)
       rails_warden (= 0.5.2)
       rgeo (= 0.3.2)
-      rgeo-geojson (= 0.2.0)
+      rgeo-geojson (= 0.2.1)
       typhoeus (= 0.2.4)
       warden (= 1.0.3)
 
@@ -67,7 +68,7 @@ GEM
     i18n (0.5.0)
     jammit (0.6.3)
       yui-compressor (>= 0.9.3)
-    json (1.5.1)
+    json (1.5.3)
     launchy (2.0.5)
       addressable (~> 2.2.6)
     linecache19 (0.5.11)
@@ -146,8 +147,8 @@ GEM
     rest-client (1.6.3)
       mime-types (>= 1.16)
     rgeo (0.3.2)
-    rgeo-geojson (0.2.0)
-      rgeo (>= 0.2.0)
+    rgeo-geojson (0.2.1)
+      rgeo (>= 0.2.8)
     ruby-debug-base19 (0.11.24)
       columnize (>= 0.3.1)
       linecache19 (>= 0.5.11)
@@ -180,7 +181,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cartodb-rb-client (= 0.0.1)!
+  cartodb-rb-client!
   geocoder
   heroku
   jammit
