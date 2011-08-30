@@ -793,7 +793,7 @@ div {
     width: 535px;
     height: 100%;
     min-height: 300px;
-    padding: 60px 25px;
+    padding: 38px 25px 66px;
     color: #333333;
     background-color: #FFFFFF;
     font: 15px normal "LiberationSerifRegular";
@@ -865,22 +865,22 @@ div {
             width: 235px; } } } }
     p {
       &.label {
-        margin: 0 0 0 5px;
+        margin: 0 0 8px 5px;
         font: normal 13px "PT Sans Bold";
         color: #333333;
         &#first {
-          margin: 130px 0 0 5px; } }
+          margin: 140px 0 0 5px; } }
       &.value {
         margin: 3px 0 0 5px;
         font: normal 15px "LiberationSerifRegular";
         color: #666666; } }
     span.line {
-      margin: 10px 0 10px 0px; }
+      margin: 17px 0; }
     ul {
       margin: 3px 0 0 17px;
       list-style-type: disc;
       li {
-        margin: 4px 0 0 5px;
+        margin: 3px 0 0 5px;
         font: normal 15px "LiberationSerifRegular";
         color: #666666;
         a {

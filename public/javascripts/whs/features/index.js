@@ -48,6 +48,7 @@ var
               new google.maps.Point(12, 32));
 
         marker = new google.maps.Marker({
+          // map: map,
           position: latlng,
           title: feature['title'],
           icon: image

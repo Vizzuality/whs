@@ -87,6 +87,19 @@ class Feature
       query sql
     end
 
+    def all(location)
+      sql = <<-SQL
+        SELECT
+          title,
+          type,
+          ST_X(ST_Transform(the_geom, 4326)) as longitude,
+          ST_Y(ST_Transform(the_geom, 4326)) as latitude
+        FROM #{features_table_name}
+      SQL
+
+      query sql
+    end
+
     def random_one_distinct_from(feature)
       randome_one = query <<-SQL
         SELECT cartodb_id, title, images_ids
