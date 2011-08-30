@@ -64,9 +64,9 @@ class Feature
       columns.reject{|c| Cartoset::Constants::COMMON_FEATURES_FIELDS.include?(c[:name])}
     end
 
-    def random(location, order_by_distance = false, not_being_feature = nil)
+    def random(location, order_by_distance = nil, not_being_feature = nil)
       order = 'ORDER BY RANDOM()'
-      order = "ORDER BY ST_Distance(the_geom::geography, GeomFromText('POINT(#{location.x} #{location.y})', 4326))" if order_by_distance
+      order = "ORDER BY ST_Distance(the_geom::geography, GeomFromText('POINT(#{order_by_distance.x} #{order_by_distance.y})', 4326))" if order_by_distance
       where = ["WHERE images_ids IS NOT NULL"]
       where << "cartodb_id <> #{not_being_feature.cartodb_id}" if not_being_feature.present?
       sql = <<-SQL

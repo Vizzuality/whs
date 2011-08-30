@@ -16,7 +16,7 @@ class FeaturesController < ApplicationController
 
     @feature_type   = @feature.type
     @random_feature = Feature.random_one_distinct_from @feature
-    @nearest_places = Feature.random(location_point, true, @feature).first(3)#Feature.with_distance_to(location_point).close_to(@feature.the_geom).where('id != ?', @feature.id).limit(3)
+    @nearest_places = Feature.random(user_latlong, @feature.the_geom, @feature).first(3)
 
     @feature_json        = {:type => @feature.type, :latitude => @feature.the_geom.y, :longitude => @feature.the_geom.x}.to_json.html_safe
     @nearest_places_json = @nearest_places.map{|f| {:cartodb_id => f.cartodb_id, :type => f.type, :latitude => f.latitude, :longitude => f.longitude, :distance => f.distance} }.to_json.html_safe
