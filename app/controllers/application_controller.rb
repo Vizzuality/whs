@@ -45,19 +45,16 @@ class ApplicationController < ActionController::Base
 
   def geolocate_user
     if Rails.env.production?
-      session[:user_location] = request.location if session[:user_location].blank?
+      session[:user_location] = {
+        "city"         => request.location.city.present?? request.location.city : 'Madrid',
+        "latitude"     => request.location.latitude.present?? request.location.latitude : "40.42221",
+        "longitude"    => request.location.longitude.present?? request.location.longitude : "-3.6996"
+      } if session[:user_location].blank?
     else
       session[:user_location] = {
-        "ip"           => "127.0.0.1",
         "city"         => "Madrid",
-        "region_code"  => "28",
-        "region_name"  => "Madrid",
-        "metrocode"    => "",
-        "zipcode"      => "28002",
         "latitude"     => "40.42221",
-        "longitude"    => "-3.6996",
-        "country_name" => "Spain",
-        "country_code" => "SP"
+        "longitude"    => "-3.6996"
       }
     end
   end
