@@ -6,6 +6,7 @@ javascripts:
     - public/javascripts/application.js
   explore:
     - public/javascripts/jquery.min.js
+    - public/javascripts/spin.js
     - public/javascripts/application.js
     - public/javascripts/whs/features/index.js
   feature:

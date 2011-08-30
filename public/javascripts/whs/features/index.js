@@ -21,6 +21,17 @@ var styles = [[{
         opt_textSize: 18
       }]];
 var markerClusterer;
+var spinjs_opts = {
+  lines: 12,
+  length: 7,
+  width: 4,
+  radius: 10,
+  color: 'white',
+  speed: 0.5,
+  trail: 40,
+  shadow: true
+};
+var spinner;
 var
     form,
     search_url,
@@ -84,13 +95,16 @@ var
       return results[1];
     },
     showLoader = function() {
-      $('div.content_box#explore span.loader').fadeIn();
+      spinner.spin(document.getElementById('spinner'));
+      $('#spinner').fadeIn();
     },
     hideLoader = function() {
-      $('div.content_box#explore span.loader').fadeOut();
+      spinner.stop();
+      $('#spinner').fadeOut();
     };
 
   $(document).ready( function(){
+    spinner    = new Spinner(spinjs_opts);
     form       = $('#ajaxSearch'),
     search_url = form.attr('action');
 
