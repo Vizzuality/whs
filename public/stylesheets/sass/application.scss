@@ -1111,9 +1111,10 @@ div {
     clear: both; }
   &#footer {
     position: relative;
-    top: -40px;
-    float: left;
     width: 100%;
+    float: left;
+    margin-top: -47px;
+    padding-top: 20px;
     z-index: -1;
     background: url("/images/footer/footer_background.png") repeat;
     &.error {
@@ -1223,7 +1224,7 @@ div {
     background-color: #000000;
     font: normal 12px Arial;
     text-align: right;
-    margin: 0 0 -14px 0;
+    margin: 0;
     a {
       color: #FFFFFF; }
     div#inner {
