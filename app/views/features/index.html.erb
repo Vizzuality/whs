@@ -29,6 +29,7 @@
           <%= form_tag search_path, :method => :get, :id => 'ajaxSearch' do %>
             <%= label_tag :q, 'Search...', :class => params[:q] ? 'hidden' : '' %>
             <%= text_field_tag :q, params[:q], :size => 20 %>
+            <%= submit_tag '', :class => :submit %>
           <% end %>
         </div>
         <div class="input_right"></div>

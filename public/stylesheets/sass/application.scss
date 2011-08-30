@@ -389,6 +389,14 @@ div {
           font-family: Helvetica, Arial;
           font-size: 13px;
           line-height: 24px; }
+        input.submit {
+          position: absolute;
+          background: url(/images/header/mag_glass.png) no-repeat;
+          top: 3px;
+          right: 0;
+          width: 16px;
+          height: 16px;
+          border: 0 none; }
         #q {
           border-style: hidden;
           border-width: 0px;
