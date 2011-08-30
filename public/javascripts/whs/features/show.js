@@ -114,10 +114,19 @@ $(document).ready( function(){
       }
       geodesic = new google.maps.Polyline(geodesicOptions);
       geodesic.setMap(map);
+
+      var image = new google.maps.MarkerImage(
+        "/images/marker_me.png",
+        new google.maps.Size(13, 14),
+        new google.maps.Point(0,0),
+        new google.maps.Point(8, 13)
+      );
+
       var marker = new google.maps.Marker({
         position: userLatLng,
         map: map,
-        title: "You!"
+        title: "You!",
+        icon: image
       });
     }
   }

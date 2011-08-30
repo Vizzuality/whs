@@ -68,7 +68,7 @@
         <div id="data_column">
           <div class="map_container">
             <div id="map">
-              <img src="http://maps.google.com/maps/api/staticmap?center=<%= @feature.the_geom.y %>,<%= @feature.the_geom.x %>&zoom=8&size=235x162&maptype=terrain&markers=icon:/images/explore/marker_natural.png|<%= @feature.the_geom.y %>,<%= @feature.the_geom.x %>&sensor=false"/>
+              <img src="http://maps.google.com/maps/api/staticmap?center=<%= @feature.the_geom.y %>,<%= @feature.the_geom.x %>&zoom=8&size=235x162&maptype=terrain&markers=icon:http://<%= APP_CONFIG[:site_host]  %>/images/explore/marker_<%= @feature.type %>.png|<%= @feature.the_geom.y %>,<%= @feature.the_geom.x %>&sensor=false"/>
 
             </div>
             <div id="img_thumb">

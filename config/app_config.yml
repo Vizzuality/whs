@@ -1,8 +1,12 @@
 development:
+  site_host: 'rethinking-whs.heroku.com'
   google_api_key: ''
 test:
+  site_host: 'rethinking-whs.heroku.com'
   google_api_key: ''
 staging:
+  site_host: 'rethinking-whs.heroku.com'
   google_api_key: ''
 production:
+  site_host: 'rethinking-whs.heroku.com'
   google_api_key: ''
