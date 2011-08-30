@@ -32,8 +32,10 @@
   <ul>
     <% @features.each do |feature, itinerary|%>
     <li>
-      <h3><a href="/features/<%=feature.cartodb_id%>"><%=truncate(feature.title,:length=>50,:delimiter=>"...") %></a></h3>
+      <a href="/features/<%=feature.cartodb_id%>">
+      <h3><%=truncate(feature.title,:length=>50,:delimiter=>"...") %></h3>
       <span class="description"><%= itinerary_time_and_type(Feature.distance_in_time(feature), @user_city) %></span>
+      </a>
     </li>
     <% end %>
   <% else %>

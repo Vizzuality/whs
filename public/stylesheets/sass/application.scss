@@ -596,20 +596,27 @@ div {
           height: 645px;
           background: white;
           li {
-            width: 830px;
-            height: 31px;
-            padding: 20px 25px 20px 25px;
-            border-bottom: 1px solid #999999;
-            background: white;
-            h3 a {
-              font: normal 18px "PT Sans Bold";
-              color: #FF9900;
+            a{
+              display: block;
+              border-bottom: 1px solid #999999;
+              background: white;
               text-decoration: none;
+              width: 830px;
+              height: 31px;
+              padding: 20px 25px 20px 25px;
+              text-decoration: none;
+              h3 {
+                font: normal 18px "PT Sans Bold";
+                color: #FF9900;
+              }
+              span.description {
+                font: normal 13px "Arial";
+                color: #666666; }
               &:hover {
-                color: #FF6600; } }
-            span.description {
-              font: normal 13px "Arial";
-              color: #666666; } } } } } }
+                h3{
+                  color: #FF6600;
+                } }
+            } } } } } }
   &#results div.empty_list {
     position: absolute;
     top: 300px;
