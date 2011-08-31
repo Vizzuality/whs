@@ -3,9 +3,9 @@ body {
   padding: 0;
   margin: 0;
   &#natural {
-    background: url("/images/green_texture.png") repeat; }
+    background: url("/images/green_texture.jpg") repeat; }
   &#cultural {
-    background: url("/images/orange_texture.png") repeat; }
+    background: url("/images/orange_texture.jpg") repeat; }
   div#body {
     margin: 0;
     background: url("/images/general_bg.png") no-repeat center 0;
@@ -14,9 +14,9 @@ body {
       padding: 0;
       background: url("/images/general_bg.png") no-repeat center 0; } }
   &#natural div#body {
-    background: url("/images/natural_bg.jpg") no-repeat center 0; }
+    background: url("/images/backgrounds/natural_bg.jpg") repeat-x center 0; }
   &#cultural div#body {
-    background: url("/images/cultural_bg.jpg") no-repeat center 0; } }
+    background: url("/images/backgrounds/cultural_bg.jpg") repeat-x center 0; } }
 
 div {
   &#page {
