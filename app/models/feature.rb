@@ -87,7 +87,7 @@ class Feature
       query sql
     end
 
-    def all(location)
+    def all
       sql = <<-SQL
         SELECT
           title,
@@ -95,6 +95,17 @@ class Feature
           ST_X(ST_Transform(the_geom, 4326)) as longitude,
           ST_Y(ST_Transform(the_geom, 4326)) as latitude
         FROM #{features_table_name}
+      SQL
+
+      query sql
+    end
+
+    def first(n = 10, p = 1)
+      sql = <<-SQL
+        SELECT *
+        FROM #{features_table_name}
+        LIMIT #{n}
+        OFFSET #{(p - 1) * n}
       SQL
 
       query sql
@@ -152,6 +163,20 @@ class Feature
 
       results.first.count if results.present?
     end
+
+    def data_columns
+      columns.reject{|c| %w(cartodb_id created_at updated_at).include?(c[:name])}.compact
+    end
+
+    def columns
+      table = CartoDB::Connection.table features_table_name
+      table.schema.map{|c| c[0].eql?('the_geom') ? {:name => c[0], :type => c[1], :geometry_type => c[3]} : {:name => c[0], :type => c[1]}}
+    end
+
+    def non_common_fields
+      columns.reject{|c| Cartoset::Constants::COMMON_FEATURES_FIELDS.include?(c[:name])}
+    end
+
 
     def query(sql, params = nil)
       results = CartoDB::Connection.query sql, params
