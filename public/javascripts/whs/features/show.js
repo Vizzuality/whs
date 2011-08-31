@@ -36,7 +36,7 @@ $(document).ready( function(){
       $("a#show_link").html("Show images");
     }
   });
-  setTimeout(function(){loadMap()},500);
+  loadMap();
 });
 
 
@@ -101,8 +101,8 @@ $(document).ready( function(){
 
   function drawGeodesicLine() {
     var poly, geodesic;
-    if (google.loader.ClientLocation) {
-      var userLatLng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
+
+    if (userLatLng) {
 
       var geodesic_points = [latlng,userLatLng];
       var geodesicOptions = {

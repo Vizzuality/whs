@@ -11,8 +11,9 @@ class FeaturesController < ApplicationController
   end
 
   def show
-    location_point  = user_geolocated?? user_latlong : @feature.the_geom
-    @user_city      = user_city
+    @user_latlong  = user_latlong
+    location_point = user_geolocated?? user_latlong : @feature.the_geom
+    @user_city     = user_city
 
     @feature_type   = @feature.type
     @random_feature = Feature.random_one_distinct_from @feature
