@@ -41,6 +41,10 @@ body > header{
       font-weight: normal;
       color: $logo;
       line-height: 55px;
+      a{
+        color: $nav;
+        text-decoration: none;
+      }
     }
 
     nav{

@@ -1,5 +1,5 @@
 body {
-  background: url("/images/blue_texture.png") repeat;
+  background: url("/images/blue_texture.jpg") repeat;
   padding: 0;
   margin: 0;
   &#natural {
@@ -8,7 +8,7 @@ body {
     background: url("/images/orange_texture.jpg") repeat; }
   div#body {
     margin: 0;
-    background: url("/images/general_bg.png") no-repeat center 0;
+    background: url("/images/blue_background.jpg") no-repeat center 0;
     &.error {
       margin: 0;
       padding: 0;
@@ -1264,3 +1264,37 @@ span.line {
   width: 100%;
   height: 2px;
   background: url("/images/footer/line_background.png") repeat-x; }
+
+
+/*ERROR PAGES  -------------------------------------------- */
+
+div#error{
+  width: 100%;
+  height: 895px;
+  margin: 0;
+  background: transparent url('/images/backgrounds/error.jpg') no-repeat center 0;
+  .messages{
+    width: 896px;
+    margin: 0 auto;
+    color: white;
+    position: relative;
+    div {
+      position: absolute;
+      top: 288px;
+      left: 231px;
+      h2, h3{
+        font-family: Helvetica;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      p{
+        font-family: Helvetica;
+        font-size: 17px;
+        margin: 20px 0;
+        a{
+          color: white;
+        }
+      }
+    }
+  }
+}
