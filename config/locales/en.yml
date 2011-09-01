@@ -105,3 +105,29 @@ en:
         title: Go to your site
         description: Check how your users will see your site...
         link: Public site
+  search: search
+  from: from
+  to: to
+  feature:
+    criteria:
+      #i: Masterpiece of creative genius
+      #ii: Interchange of human values
+      #iii: Exceptional testimony to a cultural tradition
+      #iv: Illustrates a significant stage in human history
+      #v: Human interaction with the environment
+      #vi: Ideas, beliefs, artistic or literary work
+      #vii: Natural phenomena or natural beauty
+      #viii: Represents major stages of earth's history
+      #ix: Ecological and biological processes ecosystems
+      #x: Habitat for conservation of biological diversity
+      all: 'All criteria'
+      i: Creative genius
+      ii: Human values
+      iii: Cultural tradition
+      iv: Human history
+      v: Interaction environment
+      vi: Ideas, beliefs or artistic work
+      vii: Natural phenomena or beauty
+      viii: Earth's history
+      ix: Ecosystems
+      x: Conservation of biodiversity
