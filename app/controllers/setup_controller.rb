@@ -13,6 +13,7 @@ class SetupController < ApplicationController
     when "1"
       @settings = OpenStruct.new Cartoset::Config.settings
     when "2"
+      Cartoset::Config.set_cartodb_credentials current_user
       @settings = OpenStruct.new Cartoset::Config.settings
     when "3"
       Cartoset::Config.update params[:settings]
@@ -58,14 +59,7 @@ class SetupController < ApplicationController
   end
 
   def redirect_to_root_if_invalid_env
-    unless Rails.env.development? || Rails.env.test? || logged_in?
-      if application_installed? && !logged_in?
-        session[:return_to] = setup_path
-        redirect_to login_required_path
-      else
-        redirect_to root_path
-      end
-    end
+    redirect_to root_path unless Rails.env.development? || Rails.env.test?
   end
   private :redirect_to_root_if_invalid_env
 end
