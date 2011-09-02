@@ -90,6 +90,7 @@ class Feature
     def all
       sql = <<-SQL
         SELECT
+          cartodb_id,
           title,
           type,
           ST_X(ST_Transform(the_geom, 4326)) as longitude,
