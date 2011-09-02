@@ -235,26 +235,26 @@ div {
                 background: black; } } } } } } }
   &#zoomControl {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 25px;
+    right: 0;
     width: 25px;
     a {
       &#zoomin {
         float: left;
         margin: 0;
-        width: 21px;
-        height: 21px;
-        background: url("/images/zoom_in.png");
+        width: 35px;
+        height: 30px;
+        background: black url("/images/zoom_in.png") no-repeat center center;
         &:hover {
-          background-position: 0 21px; } }
+          background-color: #FF7C00; } }
       &#zoomout {
         float: left;
-        width: 21px;
-        height: 21px;
-        margin: 8px 0 0 0;
-        background: url("/images/zoom_out.png");
+        width: 35px;
+        height: 30px;
+        margin: 1px 0 0 0;
+        background: black url("/images/zoom_out.png") no-repeat center center;
         &:hover {
-          background-position: 0 21px; } } } }
+          background-color: #FF7C00; } } } }
   &.mosaic {
     h1 {
       position: absolute;
