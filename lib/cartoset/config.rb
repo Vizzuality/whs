@@ -95,6 +95,7 @@ class Cartoset::Config
       File.open(path, "w") do |f|
         f.write(settings.to_yaml)
       end
+    rescue
     end
     private :consolidate_settings
   end
