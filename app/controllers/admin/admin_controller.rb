@@ -5,8 +5,8 @@ class Admin::AdminController < ApplicationController
 
   def user_logged?
     unless logged_in?
-      session[:return_to] = admin_path
-      redirect_to cartodb_authorize_path unless logged_in?
+      session[:return_to] = request.request_uri
+      redirect_to login_required_path
     end
   end
   protected :user_logged?

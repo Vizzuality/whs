@@ -1,3 +1,4 @@
+@import 'main.mixins.scss';
 @import 'mixins.css3.scss';
 @import 'admin/mixins.scss';
 @import 'admin.colors.scss';
@@ -89,7 +90,7 @@ div#features_list{
       top: 0;
       width: 371px;
       margin: 0;
-      padding: 5px 0;
+      padding: 5px;
       border-width: 1px;
       border-style: solid;
       border-color: $search_border;

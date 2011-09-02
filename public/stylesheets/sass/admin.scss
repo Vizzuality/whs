@@ -89,7 +89,7 @@ body > div#main_content{
     .title{
       font-size: 25px;
       padding: 23px 30px;
-      float:left;
+      @include inline-block;
     }
 
     //Buttons for the footer of each box
