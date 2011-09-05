@@ -341,7 +341,8 @@ body > div#main_content div.content_box {
         font-size: 17px;
         font-weight: normal;
         color: #333333;
-        margin: 0 0 10px 0;
+        line-height: 39px;
+        margin: 10px 0;
       }
 
       p {
@@ -349,7 +350,9 @@ body > div#main_content div.content_box {
         font-size: 13px;
         font-weight: normal;
         color: #666666;
+        line-height: 16px;
         margin: 0 0 10px 0;
+        width: 200px;
       }
 
       a {
