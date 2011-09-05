@@ -24,9 +24,11 @@ div {
     padding: 0;
     margin: 0; }
   &#container {
+    position: relative;
     margin: 0 auto;
     width: 896px;
-    padding: 5px 0; }
+    padding: 5px 0;
+    z-index: 1; }
   &#header_content {
     background: #000000;
     width: 100%;
@@ -1064,7 +1066,7 @@ div {
         color: #333333;
         font: normal 15px "LiberationSerifSans"; }
       div ul {
-        padding: 0 0 0 20px;
+        padding: 0 0 20px 20px;
         list-style-type: disc; }
       ul li {
         color: #333333;
@@ -1140,7 +1142,7 @@ div {
     float: left;
     margin-top: -47px;
     padding-top: 20px;
-    z-index: -1;
+    z-index: 0;
     background: url("/images/footer/footer_background.png") repeat;
     &.error {
       top: 0; } }
