@@ -38,7 +38,7 @@
       <div id="feature_title">
         <p id="country"><span><%= image_tag "flags/#{@feature.iso_code.downcase}.png", :class => 'flag' if @feature.iso_code %><%= @feature.country %></span></p>
         <h1><span><%= @feature.title %></span></h1>
-        <p class="distance"><span id="<%= @itinerary_type %>">Just <%= distance_of_time_in_words_to_now(@itinerary_time) %> away from <%= @user_city %> by <%= @itinerary_type %></span></p>
+        <p class="distance"><span id="<%= @itinerary_type %>"><%= distance_of_time_in_words_to_now(@itinerary_time) %> away from <%= @user_city %> by <%= @itinerary_type %></span></p>
       </div>
 
       <% if @feature.images_ids.present? %>
@@ -154,7 +154,7 @@
           <% end %>
         </ul>
       </div>
-      <h3>Near to this site</h3>
+      <h3>Near this site</h3>
     </div>
   </div>
   <div class="bottom"></div>
@@ -164,7 +164,7 @@
   <div class="top"></div>
   <div class="middle">
     <div class="content">
-      <div id="message">Or would you rather be randomly teleported to a new beautiful site?</div>
+      <div id="message">Let us randomly teleport you to a beautiful new World Heritage Site?</div>
       <%= link_to '"Bean me up, Scotty!"', feature_path(@random_feature.cartodb_id), :class => "teleport_#{feature_type}"  , :id => 'green'%>
     </div>
   </div>
