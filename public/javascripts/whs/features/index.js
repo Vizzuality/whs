@@ -108,6 +108,9 @@ var
     form       = $('#ajaxSearch'),
     search_url = form.attr('action');
 
+    $("a#zoomin").fadeIn();
+    $("a#zoomout").fadeIn();
+
     showSearchLabel();
 
     form.submit(function(ev){

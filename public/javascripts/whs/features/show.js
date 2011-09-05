@@ -20,6 +20,8 @@ $(document).ready( function(){
     ev.preventDefault();
     if ($("div#img_thumb").is(":visible")) {
       // Swap big area to images
+      $("a#zoomin").fadeOut();
+      $("a#zoomout").fadeOut();
       $("#gallery").fadeIn();
       $('img#default_image').fadeIn();
       $("#photo_credits").fadeIn();
@@ -27,6 +29,8 @@ $(document).ready( function(){
       $("a#show_link").html("Show map");
     } else {
       // Swap big area to map
+      $("a#zoomin").fadeIn();
+      $("a#zoomout").fadeIn();
       map.setCenter(latlng);
       map.setZoom(8);
       $("#gallery").fadeOut();
@@ -41,13 +45,12 @@ $(document).ready( function(){
 
 
   function loadMap() {
-    $("a#zoomin").fadeIn();
+    console.debug($("a#zoomin"))
     $("a#zoomin").click(function(ev) {
         ev.stopPropagation();
         ev.preventDefault();
         map.setZoom(map.getZoom()+1);
     });
-    $("a#zoomout").fadeIn();
     $("a#zoomout").click(function(ev) {
         ev.stopPropagation();
         ev.preventDefault();
