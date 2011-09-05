@@ -1,11 +1,10 @@
 <% theme ||= false -%>
 <head>
-  <title>RethinkWHS</title>
+  <title>UNESCOplaces.org</title>
   <link rel="shortcut icon" href="/favicon.ico" />
   <meta charset='UTF-8' />
   <%= csrf_meta_tag %>
   <%= render(:partial => '/shared/html5_for_ie.js').html_safe if request.env['HTTP_USER_AGENT'] =~ /MSIE/ %>
-  <%= render :partial => 'shared/google_analytics' if Rails.env.production? %>
   <%= stylesheet_link_tag "application" %>
   <%= stylesheet_link_tag "reset" %>
   <%= "<!--[if IE 7]>#{stylesheet_link_tag 'ie7'}<![endif]-->".html_safe if request.env['HTTP_USER_AGENT'] =~ /MSIE/ -%>
