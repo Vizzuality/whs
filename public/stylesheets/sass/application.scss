@@ -703,7 +703,9 @@ div {
         position: absolute;
         top: 0px;
         width: 880px;
-        height: 430px; } }
+        height: 430px; } 
+      #zoomControl{
+        right: -8px; } }
     #slider {
       position: absolute!important;
       display: block;
@@ -761,12 +763,12 @@ div {
       z-index: 10; }
     div#endangered {
       position: absolute;
-      top: -11px;
-      right: -11px;
+      top: -10px;
+      left: -11px;
       width: 97px;
       height: 94px;
       z-index: 15;
-      background: url("/images/endangered.png"); } }
+      background: transparent url("/images/endangered.png") no-repeat 0 0; } }
   &#feature div.middle div.content {
     position: relative;
     margin: 0 8px 0 8px;

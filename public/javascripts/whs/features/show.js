@@ -32,12 +32,13 @@ $(document).ready( function(){
       $("a#zoomin").fadeIn();
       $("a#zoomout").fadeIn();
       map.setCenter(latlng);
-      map.setZoom(8);
+      map.setZoom(5);
       $("#gallery").fadeOut();
       $('img#default_image').fadeOut();
       $("#photo_credits").fadeOut();
       $("div#img_thumb").show();
       $("a#show_link").html("Show images");
+      travel();
     }
   });
   loadMap();
@@ -96,6 +97,7 @@ $(document).ready( function(){
       });
 
       google.maps.event.addListener(marker, "click", function() { window.location = "/features/" + place['cartodb_id'];  });
+      
     });
 
     google.setOnLoadCallback(drawGeodesicLine);
@@ -116,6 +118,7 @@ $(document).ready( function(){
         geodesic: true
       }
       geodesic = new google.maps.Polyline(geodesicOptions);
+
       geodesic.setMap(map);
 
       var image = new google.maps.MarkerImage(
@@ -132,5 +135,42 @@ $(document).ready( function(){
         icon: image
       });
     }
+  }
+  
+  function travel(){
+    var geodesicPoints = new Array();
+    with (Math) {
+      var lat1 = userLatLng.lat() * (PI/180);
+      var lon1 = userLatLng.lng() * (PI/180);
+      var lat2 = latlng.lat() * (PI/180);
+      var lon2 = latlng.lng() * (PI/180);
+
+      var d = 2*asin(sqrt( pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
+
+      for (var n = 0 ; n < 151 ; n++ ) {
+        var f = (1/150) * n;
+        // f = f.toFixed(6);
+        var A = sin((1-f)*d)/sin(d)
+        var B = sin(f*d)/sin(d)
+        var x = A*cos(lat1)*cos(lon1) +  B*cos(lat2)*cos(lon2)
+        var y = A*cos(lat1)*sin(lon1) +  B*cos(lat2)*sin(lon2)
+        var z = A*sin(lat1)           +  B*sin(lat2)
+
+        var latN = atan2(z,sqrt(pow(x,2)+pow(y,2)))
+        var lonN = atan2(y,x)
+        var p = new google.maps.LatLng(latN/(PI/180), lonN/(PI/180));
+        geodesicPoints.push(p);
+      }
+    }
+
+    google.maps.event.addListener(map, "center_changed", function() { 
+      if (geodesicPoints && geodesicPoints.length > 0) {
+        setTimeout(function(){
+          map.panTo(geodesicPoints.shift());
+        }, 50);
+      };
+    });
+    map.setCenter(geodesicPoints.shift());
+
   }
 
