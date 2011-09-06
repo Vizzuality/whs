@@ -4,6 +4,7 @@ class FeaturesController < ApplicationController
   before_filter :get_feature, :only => [:show]
 
   def index
+    @user_city     = user_city
     @features = Feature.search(params, user_latlong)
     @features_json = Feature.all.map{|f| {:lat => f.latitude, :lon => f.longitude, :title => f.title, :id => f.cartodb_id, :type => f.type} }.to_json.html_safe
 
