@@ -1,7 +1,7 @@
 <% theme ||= false -%>
 <head>
   <title>UNESCOplaces.org</title>
-  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="shortcut icon" href="/images/favicon_32x32.ico" />
   <meta charset='UTF-8' />
   <%= csrf_meta_tag %>
   <%= render(:partial => '/shared/html5_for_ie.js').html_safe if request.env['HTTP_USER_AGENT'] =~ /MSIE/ %>
@@ -13,4 +13,3 @@
   <%= yield :head_libraries %>
   <%= yield :head %>
 </head>
-  
