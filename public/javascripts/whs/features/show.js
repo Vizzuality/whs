@@ -46,7 +46,6 @@ $(document).ready( function(){
 
 
   function loadMap() {
-    console.debug($("a#zoomin"))
     $("a#zoomin").click(function(ev) {
         ev.stopPropagation();
         ev.preventDefault();
@@ -81,8 +80,6 @@ $(document).ready( function(){
       title: feature['title'],
       icon: image
     });
-
-
 
     $.each(nearest_places, function(index, place){
       var image = new google.maps.MarkerImage("/images/marker_" + place['type'] + "_mini.png",
@@ -138,6 +135,10 @@ $(document).ready( function(){
   }
   
   function travel(){
+    // if (map.getBounds().contains(latlng) && map.getBounds().contains(userLatLng)) {
+    //   return;
+    // };
+    
     var geodesicPoints = new Array();
     with (Math) {
       var lat1 = userLatLng.lat() * (PI/180);
@@ -147,8 +148,10 @@ $(document).ready( function(){
 
       var d = 2*asin(sqrt( pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
 
-      for (var n = 0 ; n < 151 ; n++ ) {
-        var f = (1/150) * n;
+      var steps = distance * 151 / 10015007.480415292;
+
+      for (var n = 0 ; n < steps ; n++ ) {
+        var f = (1/(steps - 1)) * n;
         // f = f.toFixed(6);
         var A = sin((1-f)*d)/sin(d)
         var B = sin(f*d)/sin(d)

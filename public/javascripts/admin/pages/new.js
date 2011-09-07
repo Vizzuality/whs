@@ -10,7 +10,6 @@
           htmlArea = this;
           setTimeout(function(){
             $('label:not(.visible)').each(function(i,ele){
-              console.debug($(ele).attr('for'))
               createBubble($(ele).position(),texts[$(ele).attr('for')]);
             });
           },500);

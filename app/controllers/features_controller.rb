@@ -27,7 +27,11 @@ class FeaturesController < ApplicationController
     itinerary       = Feature.itinerary_time_to(@feature, location_point)
     @itinerary_time = itinerary[:time]
     @itinerary_type = itinerary[:type]
-
+    
+    @distance = @feature.the_geom.distance(user_latlong)
+    puts '###############'
+    puts @distance
+    puts '###############'
   end
 
 end
