@@ -12,9 +12,10 @@
 
     var nearest_places = <%= @nearest_places_json %>;
 
-    var userLatLng = null;
+    var userLatLng = null, distance = null;
     <% if @user_latlong.present? %>
     userLatLng = new google.maps.LatLng(<%= @user_latlong.y %>, <%= @user_latlong.x %>);
+    distance = <%= @distance %>;
     <% end %>
   </script>
   <%= raw include_javascripts :feature %>

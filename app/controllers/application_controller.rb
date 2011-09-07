@@ -61,7 +61,8 @@ class ApplicationController < ActionController::Base
   private :geolocate_user
 
   def user_latlong
-    ::RGeo::Cartesian.simple_factory.point(session[:user_location]['longitude'], session[:user_location]['latitude']) if user_geolocated?
+    ::RGeo::Geographic.simple_mercator_factory.point(session[:user_location]['longitude'], session[:user_location]['latitude']) if user_geolocated?
+    # ::RGeo::Cartesian.simple_factory.point(session[:user_location]['longitude'], session[:user_location]['latitude']) if user_geolocated?
   end
   private :user_latlong
 
