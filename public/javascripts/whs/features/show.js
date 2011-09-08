@@ -31,8 +31,7 @@ $(document).ready( function(){
       // Swap big area to map
       $("a#zoomin").fadeIn();
       $("a#zoomout").fadeIn();
-      map.setCenter(latlng);
-      map.setZoom(5);
+      map.setCenterZoom(latlng, 5);
       $("#gallery").fadeOut();
       $('img#default_image').fadeOut();
       $("#photo_credits").fadeOut();
@@ -46,6 +45,7 @@ $(document).ready( function(){
 
 
   function loadMap() {
+
     $("a#zoomin").click(function(ev) {
         ev.stopPropagation();
         ev.preventDefault();
@@ -58,98 +58,104 @@ $(document).ready( function(){
     });
 
 
-    // Map customization
-    var myOptions = {
-      zoom: 8,
-      disableDefaultUI: true,
-      center: new google.maps.LatLng(feature['latitude'], feature['longitude']),
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    };
-    map = new google.maps.Map(document.getElementById("big_map"), myOptions);
+    var tilejson = {
+       tilejson: '1.0.0',
+       scheme: 'tms',
+       tiles: ['http://a.tiles.mapbox.com/mapbox/1.0.0/blue-marble-topo-bathy-jul/{z}/{x}/{y}.png']
+     };
+    
 
-    // Adding the marker
-    var image = new google.maps.MarkerImage("/images/explore/marker_" + feature['type'] + ".png",
-          new google.maps.Size(38, 34),
-          new google.maps.Point(0,0),
-          new google.maps.Point(12, 32));
+    map = new MM.Map('big_map',new wax.mm.connector(tilejson));
+    latlng = new MM.Location(feature['latitude'], feature['longitude']);
+    map.setCenterZoom(latlng, 2);
 
-    latlng = new google.maps.LatLng(feature['latitude'], feature['longitude']);
-    var marker = new google.maps.Marker({
-      position: latlng,
-      map: map,
-      title: feature['title'],
-      icon: image
-    });
+ 
+    // Clip for adding the markers
+    markerClip = new MarkerClip(map);
 
+    // Near markers
     $.each(nearest_places, function(index, place){
-      var image = new google.maps.MarkerImage("/images/marker_" + place['type'] + "_mini.png",
-            new google.maps.Size(25, 23),
-            new google.maps.Point(0,0),
-            new google.maps.Point(8, 19));
-      marker = new google.maps.Marker({
-        position: new google.maps.LatLng(place['latitude'], place['longitude']),
-        map: map,
-        title: place['title'],
-        icon: image
-      });
-
-      google.maps.event.addListener(marker, "click", function() { window.location = "/features/" + place['cartodb_id'];  });
       
+      var marker = markerClip.createDefaultMarker(place['type']),
+          location = new MM.Location(place['latitude'], place['longitude']);
+      marker.title = location.toString();
+      markerClip.addMarker(marker, location, {x:8,y:19},place['cartodb_id']);
     });
-
-    google.setOnLoadCallback(drawGeodesicLine);
+    
+    
+    // Add big marker
+    var marker = markerClip.createBigMarker(feature['type']),
+        location = new MM.Location(feature['latitude'], feature['longitude']);
+    marker.title = location.toString();
+    markerClip.addMarker(marker, location, {x:12,y:32}, feature['cartodb_id']);
+  
+    if (userLatLng) {
+      drawGeodesicLine();
+    }
   }
+
 
 
   function drawGeodesicLine() {
-    var poly, geodesic;
+    var canvas = document.createElement('canvas');
+    canvas.style.position = 'absolute';
+    canvas.style.left = '0px';
+    canvas.style.top = '0px';
+    canvas.width = map.dimensions.x;
+    canvas.height = map.dimensions.y;
+    map.parent.appendChild(canvas);
 
-    if (userLatLng) {
-
-      var geodesic_points = [latlng,userLatLng];
-      var geodesicOptions = {
-        path: geodesic_points,
-        strokeColor: '#333333',
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        geodesic: true
-      }
-      geodesic = new google.maps.Polyline(geodesicOptions);
-
-      geodesic.setMap(map);
-
-      var image = new google.maps.MarkerImage(
-        "/images/marker_me.png",
-        new google.maps.Size(13, 14),
-        new google.maps.Point(0,0),
-        new google.maps.Point(8, 13)
-      );
-
-      var marker = new google.maps.Marker({
-        position: userLatLng,
-        map: map,
-        title: "You!",
-        icon: image
-      });
+    var locations = [];
+    for (var i = 0; i <= 100; i++) {
+      var f = i/100.0;
+      locations.push(com.modestmaps.Location.interpolate(latlng,userLatLng, f));
     }
+    map.setExtent(locations);
+
+    function redraw() {
+      var ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.strokeStyle = 'black';
+      ctx.beginPath();
+      var p = map.locationPoint(locations[0]);
+      ctx.moveTo(p.x,p.y);
+      for (var i = 1; i < locations.length; i++) {
+        p = map.locationPoint(locations[i]);
+        ctx.lineTo(p.x,p.y);
+      }
+      ctx.stroke();
+    }
+
+    map.addCallback('drawn', redraw);
+    map.addCallback('resized', function() {
+      canvas.width = map.dimensions.x;
+      canvas.height = map.dimensions.y;
+      redraw();
+    });
+
+    redraw();
+    
+    var marker = markerClip.createUserMarker();
+    marker.title = location.toString();
+    markerClip.addMarker(marker, userLatLng, {x:8,y:13});
   }
   
+  
+
   function travel(){
-    // if (map.getBounds().contains(latlng) && map.getBounds().contains(userLatLng)) {
-    //   return;
-    // };
     
     var geodesicPoints = new Array();
     with (Math) {
-      var lat1 = userLatLng.lat() * (PI/180);
-      var lon1 = userLatLng.lng() * (PI/180);
-      var lat2 = latlng.lat() * (PI/180);
-      var lon2 = latlng.lng() * (PI/180);
-
+      var lat1 = userLatLng.lat * (PI/180);
+      var lon1 = userLatLng.lon * (PI/180);
+      var lat2 = latlng.lat * (PI/180);
+      var lon2 = latlng.lon * (PI/180);
+  
       var d = 2*asin(sqrt( pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
-
-      var steps = distance * 151 / 10015007.480415292;
-
+  
+      var steps = distance * 300 / 10015007.480415292;
+      // steps = 300;
+  
       for (var n = 0 ; n < steps ; n++ ) {
         var f = (1/(steps - 1)) * n;
         // f = f.toFixed(6);
@@ -158,22 +164,23 @@ $(document).ready( function(){
         var x = A*cos(lat1)*cos(lon1) +  B*cos(lat2)*cos(lon2)
         var y = A*cos(lat1)*sin(lon1) +  B*cos(lat2)*sin(lon2)
         var z = A*sin(lat1)           +  B*sin(lat2)
-
+  
         var latN = atan2(z,sqrt(pow(x,2)+pow(y,2)))
         var lonN = atan2(y,x)
-        var p = new google.maps.LatLng(latN/(PI/180), lonN/(PI/180));
+        var p = new MM.Location(latN/(PI/180), lonN/(PI/180));
         geodesicPoints.push(p);
       }
     }
-
-    google.maps.event.addListener(map, "center_changed", function() { 
+      
+    function paannn() {
       if (geodesicPoints && geodesicPoints.length > 0) {
-        setTimeout(function(){
-          map.panTo(geodesicPoints.shift());
-        }, 50);
-      };
-    });
-    map.setCenter(geodesicPoints.shift());
-
+        map.setCenterZoom(geodesicPoints.shift(),6);
+      } else {
+        clearInterval(interval);
+      }
+    }
+    
+    var interval = setInterval(function(){paannn()},20);
+    map.setCenterZoom(geodesicPoints.shift(),6);
+  
   }
-

@@ -1,4 +1,4 @@
-embed_assets: on
++embed_assets: on
 
 javascripts:
   home:
@@ -14,3 +14,4 @@ javascripts:
     - public/javascripts/application.js
     - public/javascripts/galleria-1.2.2.js
     - public/javascripts/whs/features/show.js
+    - public/javascripts/whs/features/WHSMarker.js
