@@ -47,7 +47,7 @@
       <% if @feature.images_ids.present? %>
         <div id="gallery">
           <% Feature.images(@feature).each_with_index do |image,i| %>
-            <%= image_tag Feature.large_image_url(image.id), :title => "Photo by " + image.author, :alt=> image.author_url, :id =>i %>
+            <%= image_tag Feature.large_image_url(image.id), :title => "photo by " + image.author, :alt=> image.author_url, :id =>i %>
           <% end %>
           <script>
             Galleria.loadTheme('/javascripts/galleria.classic.js');
