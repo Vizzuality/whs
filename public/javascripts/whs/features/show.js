@@ -68,10 +68,12 @@ $(document).ready( function(){
     map = new MM.Map('big_map',new wax.mm.connector(tilejson));
     latlng = new MM.Location(feature['latitude'], feature['longitude']);
     map.setCenterZoom(latlng, 2);
-
- 
     // Clip for adding the markers
     markerClip = new MarkerClip(map);
+    
+    if (userLatLng) {
+      drawGeodesicLine();
+    }
 
     // Near markers
     $.each(nearest_places, function(index, place){
@@ -79,7 +81,7 @@ $(document).ready( function(){
       var marker = markerClip.createDefaultMarker(place['type']),
           location = new MM.Location(place['latitude'], place['longitude']);
       marker.title = location.toString();
-      markerClip.addMarker(marker, location, {x:8,y:19},place['cartodb_id']);
+      markerClip.addMarker(marker, location, {x:8,y:19}, place['cartodb_id']);
     });
     
     
@@ -87,11 +89,7 @@ $(document).ready( function(){
     var marker = markerClip.createBigMarker(feature['type']),
         location = new MM.Location(feature['latitude'], feature['longitude']);
     marker.title = location.toString();
-    markerClip.addMarker(marker, location, {x:12,y:32}, feature['cartodb_id']);
-  
-    if (userLatLng) {
-      drawGeodesicLine();
-    }
+    markerClip.addMarker(marker, location, {x:12,y:32}, null);
   }
 
 
@@ -99,6 +97,7 @@ $(document).ready( function(){
   function drawGeodesicLine() {
     var canvas = document.createElement('canvas');
     canvas.style.position = 'absolute';
+    canvas.style.zIndex = 0;
     canvas.style.left = '0px';
     canvas.style.top = '0px';
     canvas.width = map.dimensions.x;
@@ -137,50 +136,50 @@ $(document).ready( function(){
     
     var marker = markerClip.createUserMarker();
     marker.title = location.toString();
-    markerClip.addMarker(marker, userLatLng, {x:8,y:13});
+    markerClip.addMarker(marker, userLatLng, {x:8,y:13}, null);
   }
   
   
 
   function travel(){
-    
-    var geodesicPoints = new Array();
-    with (Math) {
-      var lat1 = userLatLng.lat * (PI/180);
-      var lon1 = userLatLng.lon * (PI/180);
-      var lat2 = latlng.lat * (PI/180);
-      var lon2 = latlng.lon * (PI/180);
+    if (userLatLng) {
+      var geodesicPoints = new Array();
+      with (Math) {
+        var lat1 = userLatLng.lat * (PI/180);
+        var lon1 = userLatLng.lon * (PI/180);
+        var lat2 = latlng.lat * (PI/180);
+        var lon2 = latlng.lon * (PI/180);
   
-      var d = 2*asin(sqrt( pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
+        var d = 2*asin(sqrt( pow((sin((lat1-lat2)/2)),2) + cos(lat1)*cos(lat2)*pow((sin((lon1-lon2)/2)),2)));
   
-      var steps = distance * 300 / 10015007.480415292;
-      // steps = 300;
+        var steps = distance * 300 / 10015007.480415292;
+        // steps = 300;
   
-      for (var n = 0 ; n < steps ; n++ ) {
-        var f = (1/(steps - 1)) * n;
-        // f = f.toFixed(6);
-        var A = sin((1-f)*d)/sin(d)
-        var B = sin(f*d)/sin(d)
-        var x = A*cos(lat1)*cos(lon1) +  B*cos(lat2)*cos(lon2)
-        var y = A*cos(lat1)*sin(lon1) +  B*cos(lat2)*sin(lon2)
-        var z = A*sin(lat1)           +  B*sin(lat2)
+        for (var n = 0 ; n < steps ; n++ ) {
+          var f = (1/(steps - 1)) * n;
+          // f = f.toFixed(6);
+          var A = sin((1-f)*d)/sin(d)
+          var B = sin(f*d)/sin(d)
+          var x = A*cos(lat1)*cos(lon1) +  B*cos(lat2)*cos(lon2)
+          var y = A*cos(lat1)*sin(lon1) +  B*cos(lat2)*sin(lon2)
+          var z = A*sin(lat1)           +  B*sin(lat2)
   
-        var latN = atan2(z,sqrt(pow(x,2)+pow(y,2)))
-        var lonN = atan2(y,x)
-        var p = new MM.Location(latN/(PI/180), lonN/(PI/180));
-        geodesicPoints.push(p);
+          var latN = atan2(z,sqrt(pow(x,2)+pow(y,2)))
+          var lonN = atan2(y,x)
+          var p = new MM.Location(latN/(PI/180), lonN/(PI/180));
+          geodesicPoints.push(p);
+        }
       }
-    }
       
-    function paannn() {
-      if (geodesicPoints && geodesicPoints.length > 0) {
-        map.setCenterZoom(geodesicPoints.shift(),6);
-      } else {
-        clearInterval(interval);
+      function paannn() {
+        if (geodesicPoints && geodesicPoints.length > 0) {
+          map.setCenterZoom(geodesicPoints.shift(),4);
+        } else {
+          clearInterval(interval);
+        }
       }
-    }
     
-    var interval = setInterval(function(){paannn()},20);
-    map.setCenterZoom(geodesicPoints.shift(),6);
-  
+      var interval = setInterval(function(){paannn()},20);
+      map.setCenterZoom(geodesicPoints.shift(),4);
+    }
   }

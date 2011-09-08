@@ -41,7 +41,8 @@
         element.style.position = 'absolute';
         offset = new MM.Point(offset.x, offset.y);
         markerDiv.appendChild(element);
-        if (cartodb_id) 
+        console.log(cartodb_id);
+        if (cartodb_id!=null) 
           $(element).click(function(ev){window.location = '/features/'+cartodb_id;});
         this.markers.push(element);
         this.markerLocations.push(location);
@@ -69,6 +70,7 @@
         marker.style.height = '23px';
         marker.style.margin = '0';
         marker.style.padding = '0';
+        marker.style.zIndex = 2;
         marker.style.background = "url('/images/marker_" + type + "_mini.png') no-repeat 0 0";
         return marker;
     };
