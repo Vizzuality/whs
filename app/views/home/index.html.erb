@@ -16,6 +16,10 @@
                 <div class="big_label">
                   <p class="place"><span><%=truncate(@features.first.title,:length=>60,:delimiter=>"...")%></span></p>
                   <p class="distance"><%= itinerary_time_and_type(Feature.distance_in_time(@features.first), @user_city) %></p>
+                  <p class="author">
+                    <img src="http://www.panoramio.com/img/logo-tos.png" alt="panoramio"/>
+                    <span>photo by <%= link_to Feature.images(@features.first).first.author, Feature.images(@features.first).first.author_url, :class => 'author_name' %></span>
+                  </p>
                 </div>
 
               <% else %>
