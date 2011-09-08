@@ -35,6 +35,8 @@ Galleria.addTheme({
         
         // show loader & counter with opacity
         this.$('loader,counter').show().css('opacity', 0.4);
+        
+        $('div#big_map').css({opacity:1});
 
         // some stuff for non-touch browsers
         if (! touch ) {
