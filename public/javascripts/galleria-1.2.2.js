@@ -3414,7 +3414,7 @@ this.prependChild( 'info', 'myElement' );
 
             if ( !!data[type] ) {
               if (type=="description") {
-                var text = elem.parent().children('div.galleria-info-title').text().split('Photo by ')[1];
+                var text = elem.parent().children('div.galleria-info-title').text().split('photo by ')[1];
                 var link = '<a href="'+data[ type ]+'" target="_blank">'+text+'</a>';
                 elem.parent().children('div.galleria-info-title').text('').append(panoramio_logo + ' Photo by ' + link);
               } else {

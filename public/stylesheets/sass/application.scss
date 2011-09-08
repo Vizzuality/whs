@@ -163,7 +163,23 @@ div {
               padding: 3px 10px 5px 10px;
               background-color: #000000;
               color: #CCCCCC;
-              font: normal 13px "Arial"; } } } }
+              font: normal 13px "Arial"; }
+            &.author {
+              float: right;
+              clear: both;
+              z-index: 4;
+              padding: 3px 10px 5px 10px;
+              background-color: #000000;
+              color: #CCCCCC;
+              font: normal 13px "Arial";
+              a{
+                color: #CCCCCC;
+                vertical-align: text-bottom;
+                &.author_name{
+                  text-decoration: underline; } }
+              span, img{
+                text-decoration: none;
+                vertical-align: text-bottom; } } } } }
       &.middle div.content {
         margin: 0 7px 0 8px;
         background: transparent; } }
