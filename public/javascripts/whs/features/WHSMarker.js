@@ -41,7 +41,7 @@
         element.style.position = 'absolute';
         offset = new MM.Point(offset.x, offset.y);
         markerDiv.appendChild(element);
-        console.log(cartodb_id);
+
         if (cartodb_id!=null) 
           $(element).click(function(ev){window.location = '/features/'+cartodb_id;});
         this.markers.push(element);

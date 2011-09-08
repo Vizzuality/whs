@@ -3416,7 +3416,7 @@ this.prependChild( 'info', 'myElement' );
               if (type=="description") {
                 var text = elem.parent().children('div.galleria-info-title').text().split('photo by ')[1];
                 var link = '<a href="'+data[ type ]+'" target="_blank">'+text+'</a>';
-                elem.parent().children('div.galleria-info-title').text('').append(panoramio_logo + ' Photo by ' + link);
+                elem.parent().children('div.galleria-info-title').text('').append(panoramio_logo + ' photo by ' + link);
               } else {
                 elem[ data[ type ].length ? 'show' : 'hide' ]().html( data[ type ] );
               }
