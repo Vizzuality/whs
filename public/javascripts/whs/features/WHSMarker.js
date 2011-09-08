@@ -66,12 +66,12 @@
         var marker = document.createElement('div');
         marker.id = map.parent.id+'-marker-'+createdMarkerCount;
         createdMarkerCount++;
-        marker.style.width = '25px';
-        marker.style.height = '23px';
+        marker.style.width = '29px';
+        marker.style.height = '29px';
         marker.style.margin = '0';
         marker.style.padding = '0';
         marker.style.zIndex = 2;
-        marker.style.background = "url('/images/marker_" + type + "_mini.png') no-repeat 0 0";
+        marker.style.background = "url('/images/white_" + type + "_mini.png') no-repeat 0 0";
         return marker;
     };
     
@@ -79,11 +79,11 @@
         var marker = document.createElement('div');
         marker.id = map.parent.id+'-marker-'+createdMarkerCount;
         createdMarkerCount++;
-        marker.style.width = '38px';
-        marker.style.height = '34px';
+        marker.style.width = '43px';
+        marker.style.height = '43px';
         marker.style.margin = '0';
         marker.style.padding = '0';
-        marker.style.background = "url('/images/explore/marker_" + type + ".png') no-repeat 0 0";
+        marker.style.background = "url('/images/white_" + type + ".png') no-repeat 0 0";
         return marker;
     };
     
