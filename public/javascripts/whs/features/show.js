@@ -40,6 +40,11 @@ $(document).ready( function(){
       travel();
     }
   });
+  
+  if ($('img#default_image').length>0) {
+    $('div#big_map').css({opacity:1});
+  }
+  
   loadMap();
 });
 
@@ -81,7 +86,7 @@ $(document).ready( function(){
       var marker = markerClip.createDefaultMarker(place['type']),
           location = new MM.Location(place['latitude'], place['longitude']);
       marker.title = location.toString();
-      markerClip.addMarker(marker, location, {x:8,y:19}, place['cartodb_id']);
+      markerClip.addMarker(marker, location, {x:8,y:29}, place['cartodb_id']);
     });
     
     
@@ -89,7 +94,7 @@ $(document).ready( function(){
     var marker = markerClip.createBigMarker(feature['type']),
         location = new MM.Location(feature['latitude'], feature['longitude']);
     marker.title = location.toString();
-    markerClip.addMarker(marker, location, {x:12,y:32}, null);
+    markerClip.addMarker(marker, location, {x:13,y:39}, null);
   }
 
 
