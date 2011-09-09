@@ -9,6 +9,8 @@ gem 'heroku'
 gem 'jammit'
 gem 'geocoder'
 
+gem 'airbrake'
+
 group :development, :test, :staging do
   gem 'ruby-debug19', :require => 'ruby-debug', :platforms => :mri_19
 end
