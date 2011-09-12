@@ -50,15 +50,16 @@ class ApplicationController < ActionController::Base
       session[:user_location] = GeoIp.locate '69.31.103.39'
     end
   rescue
-    session[:user_location] = OpenStruct.new({
+    session[:user_location] = {
       "city"         => "Madrid",
-      "the_geom"     => ::RGeo::Geographic.simple_mercator_factory.point('-3.6996', '40.42221')
-    })
+      "latitude"     => "40.42221",
+      "longitude"    => "-3.6996"
+    }
   end
   private :geolocate_user
 
   def user_latlong
-    session[:user_location].the_geom
+    ::RGeo::Geographic.simple_mercator_factory.point(session[:user_location]['longitude'], session[:user_location]['latitude']) if user_geolocated?
   end
   private :user_latlong
 
@@ -70,7 +71,7 @@ class ApplicationController < ActionController::Base
   private :user_city
 
   def user_geolocated?
-    session[:user_location].the_geom.present?
+    session[:user_location] && session[:user_location]['longitude'] && session[:user_location]['latitude']
   end
   private :user_geolocated?
 

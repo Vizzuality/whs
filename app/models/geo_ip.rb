@@ -9,5 +9,10 @@ class GeoIp
     SQL
 
     location = results.rows.first
+    {
+      'city'      => location.city,
+      'latitude'  => location.latitude,
+      'longitude' => location.longitude
+    }
   end
 end
