@@ -45,26 +45,20 @@ class ApplicationController < ActionController::Base
 
   def geolocate_user
     if Rails.env.production?
-      session[:user_location] ||= GeoIp.locate request.remote_ip
+      session[:user_location] ||= request.remote_ip
     else
-      session[:user_location] = {
-        "city"         => "Madrid",
-        "latitude"     => "40.42221",
-        "longitude"    => "-3.6996"
-      }
+      session[:user_location] = GeoIp.locate '69.31.103.39'
     end
   rescue
-    session[:user_location] = {
+    session[:user_location] = OpenStruct.new({
       "city"         => "Madrid",
-      "latitude"     => "40.42221",
-      "longitude"    => "-3.6996"
-    }
+      "the_geom"     => ::RGeo::Geographic.simple_mercator_factory.point('-3.6996', '40.42221')
+    })
   end
   private :geolocate_user
 
   def user_latlong
-    ::RGeo::Geographic.simple_mercator_factory.point(session[:user_location]['longitude'], session[:user_location]['latitude']) if user_geolocated?
-    # ::RGeo::Cartesian.simple_factory.point(session[:user_location]['longitude'], session[:user_location]['latitude']) if user_geolocated?
+    session[:user_location].the_geom
   end
   private :user_latlong
 
@@ -76,7 +70,7 @@ class ApplicationController < ActionController::Base
   private :user_city
 
   def user_geolocated?
-    session[:user_location] && session[:user_location]['longitude'] && session[:user_location]['latitude']
+    session[:user_location].the_geom.present?
   end
   private :user_geolocated?
 
