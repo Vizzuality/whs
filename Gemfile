@@ -7,7 +7,6 @@ gem 'sass'
 
 gem 'heroku'
 gem 'jammit'
-gem 'geocoder'
 
 gem 'airbrake'
 
