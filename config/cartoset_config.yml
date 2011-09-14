@@ -1,0 +1,7 @@
+---
+cartodb_oauth_key: Yu6NoImrTU9jCyvDrR0SYfURbIvyLvZEu7gXisED
+cartodb_oauth_secret: bgntchDURNj5kYZFVfwbZrdnpXLTZZDrPvQ45f8E
+cartodb_host: https://whs.cartodb.com
+cartodb_user_uid: 3
+app_name: whs
+features_table: whs_features
