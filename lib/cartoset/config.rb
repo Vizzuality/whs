@@ -30,7 +30,7 @@ class Cartoset::Config
     end
 
     def cartodb_settings?
-      settings['cartodb_oauth_key'].present? && settings['cartodb_oauth_secret'].present? && settings['cartodb_oauth_access_token'].present? && settings['cartodb_oauth_access_token_secret'].present?
+      settings['cartodb_oauth_key'].present? && settings['cartodb_oauth_secret'].present? && ENV['WHS_OAUTH_KEY'].present? && ENV['WHS_OAUTH_SECRET'].present?
     end
     private :cartodb_settings?
 
@@ -66,8 +66,8 @@ class Cartoset::Config
           'host'                      => settings['cartodb_host'] || CARTODB_DEFAULT_HOST,
           'oauth_key'                 => settings['cartodb_oauth_key'],
           'oauth_secret'              => settings['cartodb_oauth_secret'],
-          'oauth_access_token'        => settings['cartodb_oauth_access_token'],
-          'oauth_access_token_secret' => settings['cartodb_oauth_access_token_secret']
+          'oauth_access_token'        => ENV['WHS_OAUTH_KEY'],
+          'oauth_access_token_secret' => ENV['WHS_OAUTH_SECRET']
         }
 
         CartoDB::Init.start Cartoset::Application, cartodb_settings
