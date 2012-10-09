@@ -44,12 +44,12 @@ class ApplicationController < ActionController::Base
   private :redirect_back_or_render_action
 
   def geolocate_user
-    if Rails.env.production?
-      session[:user_location] ||= GeoIp.locate request.remote_ip
-    else
-      session[:user_location] = GeoIp.locate '69.31.103.39'
-    end
-  rescue
+  #   if Rails.env.production?
+  #     session[:user_location] ||= GeoIp.locate request.remote_ip
+  #   else
+  #     session[:user_location] = GeoIp.locate '69.31.103.39'
+  #   end
+  # rescue
     session[:user_location] = {
       "city"         => "Madrid",
       "latitude"     => "40.42221",

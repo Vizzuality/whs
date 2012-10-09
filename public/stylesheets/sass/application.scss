@@ -154,7 +154,9 @@ div {
               padding: 4px 10px 4px 10px;
               background-color: #000000;
               color: #FFFFFF;
-              font: normal 17px "PT Sans Bold";
+              font-family: 'PT Sans', sans-serif;
+              font-size: 17px;
+              font-weight: 700;
               text-align: right; }
             &.distance {
               float: right;
@@ -280,7 +282,9 @@ div {
       z-index: 5;
       top: 370px;
       left: -15px;
-      font: normal 50px "PT Sans Bold";
+      font-family: 'PT Sans', sans-serif;
+      font-size: 50px;
+      font-weight: 700;
       color: white; }
     h2 {
       position: absolute;
@@ -294,6 +298,7 @@ div {
     h1 {
       span {
         padding: 12px 20px 20px 20px;
+        font-weight: 700;
         background-color: black; }
       &.down {
         top: 432px;
@@ -309,7 +314,9 @@ div {
     h2 {
       margin: 0 0 8px 0;
       color: #333333;
-      font: normal 23px "PT Sans Bold"; }
+      font-family: 'PT Sans', sans-serif;
+      font-size: 23px;
+      font-weight: 700; }
     ul {
       margin: 0 0 0 0;
       li {
@@ -361,17 +368,22 @@ div {
           position: absolute;
           left: -15px;
           top: 30px;
-          font: normal 41px / 45px "PT Sans Bold";
+          font-family: 'PT Sans', sans-serif;
+          font-size: 45px;
+          font-weight: 700;
           color: #FFFFFF;
           z-index: 15;
           &.down {
             position: absolute;
             left: -15px;
             top: 86px;
-            font: normal 41px / 45px "PT Sans Bold";
+            font-family: 'PT Sans', sans-serif;
+            font-size: 41px;
+            font-weight: 700;
             color: #FFFFFF; }
           span {
             padding: 10px 15px 5px 15px;
+            font-weight: 700;
             background-color: #000000; }
           &.down span {
             padding: 5px 15px 10px 15px;
@@ -444,25 +456,27 @@ div {
       text-align: center;
       text-decoration: none;
       color: #333333;
-      font: normal 13px "PT Sans Bold";
+      font-family: 'PT Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
       text-shadow: #FFFFFF 0px 1px;
       background-position: 0 24px; } } }
 
 /*FONTS*/
-@font-face {
-  font-family: 'PT Sans';
-  src: url('/fonts/regular-webfont.eot');
-  src: local("☺"), url('/fonts/regular-webfont.woff') format("woff"), url('/fonts/regular-webfont.ttf') format("truetype"), url('/fonts/regular-webfont.svg#webfontOmy4YPRL') format("svg");
-  font-weight: normal;
-  font-style: normal; }
+/*@font-face {*/
+  /*font-family: 'PT Sans';*/
+  /*src: url('/fonts/regular-webfont.eot');*/
+  /*src: local("☺"), url('/fonts/regular-webfont.woff') format("woff"), url('/fonts/regular-webfont.ttf') format("truetype"), url('/fonts/regular-webfont.svg#webfontOmy4YPRL') format("svg");*/
+  /*font-weight: normal;*/
+  /*font-style: normal; }*/
 
 
-@font-face {
-  font-family: 'PT Sans Bold';
-  src: url('/fonts/bold-webfont.eot');
-  src: local("☺"), url('/fonts/bold-webfont.woff') format("woff"), url('/fonts/bold-webfont.ttf') format("truetype"), url('/fonts/bold-webfont.svg#webfontsAYHMuxi') format("svg");
-  font-weight: normal;
-  font-style: normal; }
+/*@font-face {*/
+  /*font-family: 'PT Sans Bold';*/
+  /*src: url('/fonts/bold-webfont.eot');*/
+  /*src: local("☺"), url('/fonts/bold-webfont.woff') format("woff"), url('/fonts/bold-webfont.ttf') format("truetype"), url('/fonts/bold-webfont.svg#webfontsAYHMuxi') format("svg");*/
+  /*font-weight: normal;*/
+  /*font-style: normal; }*/
 
 
 @font-face {
@@ -502,7 +516,9 @@ a {
     text-align: center;
     text-decoration: none;
     color: #333333;
-    font: normal 13px "PT Sans Bold";
+    font-family: 'PT Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
     text-shadow: #FFFFFF 0px 1px;
     background-position: 0 24px; } }
 
@@ -542,7 +558,9 @@ div#filter {
         width: 216px;
         padding: 5px 0 0 15px;
         color: #333333;
-        font: normal 13px "PT Sans Bold";
+        font-family: 'PT Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
         text-decoration: none; } }
     ul {
       position: absolute;
@@ -572,7 +590,9 @@ div#filter {
     color: #000000;
     color: #333333;
     background-position: 0 24px;
-    font: normal 13px "PT Sans Bold";
+    font-family: 'PT Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
     text-shadow: #FFFFFF; } }
 
 a#list_selector {
@@ -586,7 +606,9 @@ a#list_selector {
   color: #000000;
   color: #333333;
   background-position: 0 24px;
-  font: normal 13px "PT Sans Bold";
+  font-family: 'PT Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
   text-shadow: #FFFFFF; }
 
 div#filter a {
@@ -639,7 +661,9 @@ div {
               padding: 20px 25px 20px 25px;
               text-decoration: none;
               h3 {
-                font: normal 18px "PT Sans Bold";
+                font-family: 'PT Sans', sans-serif;
+                font-size: 18px;
+                font-weight: 700;
                 color: #FF9900;
               }
               span.description {
@@ -681,7 +705,9 @@ a#pagination {
   padding: 15px 0;
   color: #333333;
   background: url("/images/explore/grey_gradient.png") repeat-x;
-  font: normal 21px "PT Sans Bold";
+  font-family: 'PT Sans', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
   text-align: center;
   text-decoration: none;
   text-shadow: #FFFFFF 0px 1px;
@@ -815,7 +841,9 @@ div {
       span {
         color: #FFFFFF;
         line-height: 45px;
-        font: normal 35px "PT Sans Bold";
+        font-family: 'PT Sans', sans-serif;
+        font-size: 35px;
+        font-weight: 700;
         margin: 0;
         padding: 5px 20px 3px 0;
         background-color: #000000;
@@ -847,7 +875,9 @@ div {
       margin-top: 25px;
       margin-bottom: 10px;
       color: #333333;
-      font: normal 23px "PT Sans Bold"; }
+      font-family: 'PT Sans', sans-serif;
+      font-size: 23px;
+      font-weight: 700; }
     p {
       margin: 15px 0; }
     div#wikipedia {
@@ -912,7 +942,9 @@ div {
     p {
       &.label {
         margin: 0 0 8px 5px;
-        font: normal 13px "PT Sans Bold";
+        font-family: 'PT Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
         color: #333333;
         &#first {
           margin: 140px 0 0 5px; } }
@@ -956,7 +988,9 @@ div {
           left: -15px;
           z-index: 6;
           padding: 5px 10px;
-          font: 23px normal "PT Sans Bold";
+          font-family: 'PT Sans', sans-serif;
+          font-size: 23px;
+          font-weight: 700;
           color: #FFFFFF;
           background-color: #000000; } } } }
   &.content_box#teleport div.middle div.content {
@@ -1036,16 +1070,21 @@ div {
       position: absolute;
       left: -15px;
       top: 30px;
-      font: normal 41px / 45px "PT Sans Bold";
+      font-family: 'PT Sans', sans-serif;
+      font-size: 45px;
+      font-weight: 700;
       color: #FFFFFF;
       &.down {
         position: absolute;
         left: -15px;
         top: 84px;
-        font: normal 41px / 45px "PT Sans Bold";
+        font-family: 'PT Sans', sans-serif;
+        font-size: 41px;
+        font-weight: 700;
         color: #FFFFFF; }
       span, &.down span {
         padding: 10px 15px 15px 15px;
+        font-weight: 700;
         background-color: #000000; } }
     div.content {
       div {
@@ -1060,7 +1099,9 @@ div {
       h2 {
         padding: 15px 0 10px 0;
         color: #333333;
-        font: normal 23px "PT Sans Bold"; }
+        font-family: 'PT Sans', sans-serif;
+        font-size: 23px;
+        font-weight: 700; }
       div {
         div.amount {
           padding: 25px 0 0 15px;
@@ -1072,12 +1113,16 @@ div {
             &.big_number {
               float: left;
               width: 120px;
-              font: normal 65px "PT Sans Bold"; }
+              font-family: 'PT Sans', sans-serif;
+              font-size: 65px;
+              font-weight: 700; }
             &.big_number_subtitle {
               float: left;
               width: 90px;
               margin: 10px 0 0 5px;
-              font: normal 19px "PT Sans Bold"; } } }
+              font-family: 'PT Sans', sans-serif;
+              font-size: 19px;
+              font-weight: 700; } } }
         &#left div.amount {
           background: url("/images/about/total_amount.png") no-repeat 0 0; }
         &#center div.amount {
@@ -1102,7 +1147,9 @@ div {
           padding: 10px 10px 10px 10px;
           color: #FFFFFF;
           background-color: #000000;
-          font: normal 23px "PT Sans Bold"; }
+          font-family: 'PT Sans', sans-serif;
+          font-size: 23px;
+          font-weight: 700; }
         ul {
           padding: 80px 0 0 0;
           list-style-type: none;
